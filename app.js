@@ -18,13 +18,10 @@ var 	commentRoutes	= require("./routes/comments"),
 		campgroundRoutes	= require("./routes/campgrounds"),
 		indexRoutes				= require("./routes/index");
 
-// mongodb://localhost/yelp_camp_v12
-console.log(process.env.DATABASEURL);
+var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v12";
 
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useFindAndModify:false});
-// mongoose.connect("mongodb://localhost/yelp_camp_v12", {useNewUrlParser: true, useFindAndModify:false});
-// mongoose.connect("mongodb+srv://ram:ram@cluster0-9v5vs.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, useFindAndModify:false});
+mongoose.connect(url, {useNewUrlParser: true, useFindAndModify:false});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
