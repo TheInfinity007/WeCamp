@@ -1,0 +1,26 @@
+.thumbnail img
+{
+	width:100%;
+}
+.thumbnail
+{
+	padding:0;
+}
+h1, h2, h3
+{
+	font-weight: bold;
+}
+.comment-row
+{
+	/*margin-bottom:5px;*/
+	padding:5px;
+}
+.delete-form
+{
+	display: inline;
+}
+.form
+{
+	width:30%;
+	margin: 25px auto;
+}
