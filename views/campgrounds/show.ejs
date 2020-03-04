@@ -41,12 +41,14 @@
 						 <p>
 							<%= comment.text %> 
 						</p>
+						<span class="pull-right e-d-btn">
 						<% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
 							<a href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
 							<form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" class="delete-form">
 								<button class="btn btn-xs btn-danger">Delete</button>
 							</form>
 							<% } %>
+							</span>
 					</div>
 				</div>					
 			<% }) %>
