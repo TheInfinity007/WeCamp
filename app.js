@@ -8,6 +8,7 @@ var express  			= require('express'),
 	  passport				= require("passport"),
 	  LocalStrategy	= require("passport-local"),
 	  methodOverride = require("method-override"),
+	  moment				= require("moment");
 	  Campground 		= require('./models/campground'),
 	  Comment			= require('./models/comment'),
 	  User 					= require("./models/user"),
@@ -28,6 +29,8 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
 //seedDB();		//seed the database
+app.locals.moment = moment;
+
 
 /*PASSPORT CONFIGURATION*/
 app.use(require('express-session')({
