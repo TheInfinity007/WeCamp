@@ -1,13 +1,13 @@
 var mongoose = require("mongoose");
 
-var reviewSchema = new mongoose({
+var reviewSchema = new mongoose.Schema	({
 	rating: {
 		//Setting the star rating required
 		type:Number,
 		required: "Please provide a rating (1-5 stars).",
 		//Defining min and max values
-		min = 1,
-		max = 5,
+		min : 1,
+		max : 5,
 		//Adding validation to see if the entry is an integer
 		validate: {
 			validator: Number.isInteger,
@@ -23,8 +23,8 @@ var reviewSchema = new mongoose({
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User"
-		}.
-		username: Stringa
+		},
+		username: String
 	},
 	//campground associated with the review
 	campground: {
