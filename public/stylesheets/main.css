@@ -30,3 +30,11 @@ h1, h2, h3
 	width:30%;
 	margin: 25px auto;
 }
+@media(max-width:768px)
+{
+	.form
+	{
+		width:50%;
+		/*margin:25px auto;*/
+	}
+}
