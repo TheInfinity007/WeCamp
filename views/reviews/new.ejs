@@ -3,7 +3,7 @@
 <div class="row">
 	<h1 class="text-center">New Review: <%= campground.name %></h1>
 	<div class="form">
-		<form>
+		<form action="/campgrounds/<%=campground._id %>/reviews" method="POST">
 			<div class="form-group">
 				<label>Leave a rating: </label>
 				<fieldset class="form-group" id="rating">
