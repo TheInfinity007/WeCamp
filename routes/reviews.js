@@ -85,19 +85,24 @@ router.put("/:review_id", (req, res)=>{
 
 /*REVIEW DELETE ROUTE*/
 router.delete("/:review_id", (req, res)=>{
-	res.send("Delete route");
-	// Review.findByIdAndRemove(req.params.review_id, (err)=>{
-	// 	if(err){
-	// 		req.flash("error", err.message);
-	// 		return res.redirect("back");
-	// 	}
-	// 	//recalculate campground average
-	// 	campground.rating = calculateAverage(campground.reviews);
-	// 	campground.save();
-	// 	req.flash("sucess", "Your review was deleted successfully.");
-	// 	res.redirect("/campgrounds/" + req.params.id);
+	Review.findByIdAndRemove(req.params.review_id, (err)=>{
+		if(err){
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		Campground.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec((err, campground)=>{
+			if(err){
+				req.flash("error", err.message);
+				return res.redirect("back");
+			}
+			//recalculate campground average
+			campground.rating = calculateAverage(campground.reviews);
+			campground.save();
+			req.flash("sucess", "Your review was deleted successfully.");
+			res.redirect("/campgrounds/" + req.params.id);	
+		});
 	});
-// });
+});
 
 function calculateAverage(reviews)
 {
