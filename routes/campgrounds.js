@@ -48,7 +48,10 @@ router.get("/new", middleware.isLoggedIn,  (req, res)=>{
 /*SHOW ROUTE - shows more info about one campground*/
 router.get("/:id", (req, res)=>{
 	/* find the campground with provided ID*/
-	Campground.findById(req.params.id).populate("comments").exec( (err, foundCampground)=>{
+	Campground.findById(req.params.id).populate("comments").populate({
+		path: "reviews",
+		options: {sort:{createdAt: -1}}
+	}).exec( (err, foundCampground)=>{
 		if(err || !foundCampground){
 			req.flash("error", "Campground not found");
 			res.redirect("back");
@@ -68,6 +71,7 @@ router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res)=>{
 
 //UPDATE CAMPGROUND ROUTE
 router.put("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
+	delete req.body.campground.rating;
 	//find and update the correct campground
 	Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, updatedCampground)=>{
 		if(err){
@@ -80,11 +84,28 @@ router.put("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 
 //DELETE  CAMPGROUND ROUTE
 router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
-	Campground.findByIdAndRemove(req.params.id, (err)=>{
+	Campground.findByIdAndRemove(req.params.id, (err, campground)=>{
 		if(err){
 			res.redirect("/campgrounds");
 		}else{
-			res.redirect("/campgrounds");
+			//deletes all comments associated with the campground
+			Comment.remvoe({"_id": {$in: campground.comments}}, (err)=>{
+				if(err){
+					console.log(err);
+					return res.redirect("/campgrounds");
+				}
+				//deletes all the reviews associated with the campground
+				Review.remove({"_id": {$in: campground.reviews}}, (err)=>{
+					if(err){
+						console.log(err);
+						res.redirect("/campgrounds");
+					}
+					//delete the campground
+					campground.remove();
+					req.flash("success", "Campground deleted successfully!");
+					req.redirect("/campgrounds");
+				});
+			});
 		}
 	});
 });
