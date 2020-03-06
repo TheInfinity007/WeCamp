@@ -5,6 +5,19 @@ var Review			= require("../models/review");
 var middleware 	= require("../middleware");
 
 
+/*REVIEW  INDEX ROUTE*/
+router.get("/", (req, res)=>{
+	Campground.findById(req.params.id).populate({
+		path: "reviews",
+		options: {sort: {createdAt: -1}}	//sorting the populated reviews array to show the latest first		
+	}).exec((err, campground)=>{
+		if(err || !campground){
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		res.render("reviews/index", {campground: campground});
+	});
+});
 
 /* REVIEW NEW ROUTE*/
 router.get("/new", (req, res)=>{
