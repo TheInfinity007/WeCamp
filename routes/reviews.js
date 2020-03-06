@@ -45,6 +45,11 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
 	});
 });
 
+/*REVIEW EDIT ROUTE*/
+router.get("/:review_id/edit", (req, res)=>{
+	res.send("This is the edit route");
+});
+
 function calculateAverage(reviews)
 {
 	if(reviews.length == 0)
