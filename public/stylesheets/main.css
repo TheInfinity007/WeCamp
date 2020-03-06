@@ -12,7 +12,6 @@ h1, h2, h3
 }
 .comment-row
 {
-	/*margin-bottom:5px;*/
 	padding:5px;
 }
 .pull-right.e-d-btn
@@ -29,6 +28,10 @@ h1, h2, h3
 {
 	width:30%;
 	margin: 25px auto;
+}
+.checked
+{
+	color:orange;
 }
 @media(max-width:768px)
 {
