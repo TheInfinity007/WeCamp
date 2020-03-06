@@ -63,6 +63,27 @@ router.get("/:review_id/edit", (req, res)=>{
 	});
 });
 
+/*REVIEW UPDATE ROUTE*/
+router.put("/:review_id", (req, res)=>{
+	Review.findByIdAndUpdate(req.params.review_id, req.body.review, {new:true}, (err, updatedReview)=>{
+		if(err){
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		Campground.findById(req.params.id).populate("reviews").exec((err, campground)=>{
+			if(err){
+				req.flash("error", err.message);
+				return res.redirect("back");
+			}
+			//recalculae campground average
+			campground.rating = calculateAverage(campground.reviews);
+			campground.save();
+			req.flash("success", "Your review was successfully updated.");
+			res.redirect("/campgrounds/" + campground._id);
+		});
+	});
+});
+
 function calculateAverage(reviews)
 {
 	if(reviews.length == 0)
