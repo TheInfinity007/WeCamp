@@ -47,7 +47,20 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
 
 /*REVIEW EDIT ROUTE*/
 router.get("/:review_id/edit", (req, res)=>{
-	res.send("This is the edit route");
+	Campground.findById(req.params.id, (err, foundCampground)=>{
+		if(err || !foundCampground){
+			req.flash("error", "No campground found");
+			return req.redirect("back");
+		}
+		Review.findById(req.params.review_id, (err, foundReview)=>{
+			if(err ){
+				req.flash("error", err.message);
+				return res.redirect("back");
+			}
+			res.render("reviews/edit", {campground_id: req.params.id, review: foundReview});
+		});
+
+	});
 });
 
 function calculateAverage(reviews)
