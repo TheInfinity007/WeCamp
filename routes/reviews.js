@@ -59,7 +59,6 @@ router.get("/:review_id/edit", (req, res)=>{
 			}
 			res.render("reviews/edit", {campground_id: req.params.id, review: foundReview});
 		});
-
 	});
 });
 
@@ -83,6 +82,22 @@ router.put("/:review_id", (req, res)=>{
 		});
 	});
 });
+
+/*REVIEW DELETE ROUTE*/
+router.delete("/:review_id", (req, res)=>{
+	res.send("Delete route");
+	// Review.findByIdAndRemove(req.params.review_id, (err)=>{
+	// 	if(err){
+	// 		req.flash("error", err.message);
+	// 		return res.redirect("back");
+	// 	}
+	// 	//recalculate campground average
+	// 	campground.rating = calculateAverage(campground.reviews);
+	// 	campground.save();
+	// 	req.flash("sucess", "Your review was deleted successfully.");
+	// 	res.redirect("/campgrounds/" + req.params.id);
+	});
+// });
 
 function calculateAverage(reviews)
 {
