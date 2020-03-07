@@ -42,6 +42,15 @@ h1, h2, h3
 	.form
 	{
 		width:50%;
-		/*margin:25px auto;*/
 	}
+}
+
+div > .btn-back
+{
+	margin-top:10px;
+}
+.btn-back:hover
+{	
+	background-color: #337ab7;
+	color:#fff;
 }
