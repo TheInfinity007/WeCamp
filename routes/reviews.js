@@ -20,7 +20,7 @@ router.get("/", (req, res)=>{
 });
 
 /* REVIEW NEW ROUTE*/
-router.get("/new", (req, res)=>{
+router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, (req, res)=>{
 	//checkReviewExistence checks if a user already reviewed the campground, only one review per user is allowed.
 	Campground.findById(req.params.id, (err, campground)=>{
 		if(err){
@@ -34,7 +34,7 @@ router.get("/new", (req, res)=>{
 
 
 /*REVIEW CREATE ROUTE*/
-router.post("/", middleware.isLoggedIn, (req, res)=>{
+router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, (req, res)=>{
 	Campground.findById(req.params.id).populate("reviews").exec((err, campground)=>{
 		if(err){
 			req.flash("error", err.message);
@@ -59,7 +59,7 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
 });
 
 /*REVIEW EDIT ROUTE*/
-router.get("/:review_id/edit", (req, res)=>{
+router.get("/:review_id/edit", middleware.checkReviewOwnership, (req, res)=>{
 	Campground.findById(req.params.id, (err, foundCampground)=>{
 		if(err || !foundCampground){
 			req.flash("error", "No campground found");
@@ -76,7 +76,7 @@ router.get("/:review_id/edit", (req, res)=>{
 });
 
 /*REVIEW UPDATE ROUTE*/
-router.put("/:review_id", (req, res)=>{
+router.put("/:review_id", middleware.checkReviewOwnership, (req, res)=>{
 	Review.findByIdAndUpdate(req.params.review_id, req.body.review, {new:true}, (err, updatedReview)=>{
 		if(err){
 			req.flash("error", err.message);
@@ -97,7 +97,7 @@ router.put("/:review_id", (req, res)=>{
 });
 
 /*REVIEW DELETE ROUTE*/
-router.delete("/:review_id", (req, res)=>{
+router.delete("/:review_id", middleware.checkReviewOwnership, (req, res)=>{
 	Review.findByIdAndRemove(req.params.review_id, (err)=>{
 		if(err){
 			req.flash("error", err.message);
