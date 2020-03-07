@@ -6,7 +6,7 @@
 		<a href="/campgrounds/<%= campground._id %>" class="btn btn-back"><i class="fa fa-arrow-left"></i> Go back to the campground page</a>
 
 		<div class="thumbnail" style="margin-top:15px">
-			<div class="caption-full">
+			<div class="caption">
 				<% if(campground.rating === 0){ %>
 					<h5>
 						<em>No reviews yet.</em>
@@ -44,7 +44,7 @@
                             <% if(currentUser && review.author.id.equals(currentUser._id)){ %>
                             <a class="btn btn-xs btn-warning"
                                href="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>/edit">Edit</a>
-                            <form id="delete-form" action="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                            <form class="delete-form" action="/campgrounds/<%=campground._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
                                 <input type="submit" class="btn btn-xs btn-danger" value="Delete">
                             </form>
                             <% } %>

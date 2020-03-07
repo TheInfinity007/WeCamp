@@ -1,3 +1,17 @@
+body
+{
+	/*background:rgba(0,0,0,0.1);*/
+	background-color: #eee;
+}
+h1, h2, h3
+{
+	font-weight: bold;
+}
+nav.navbar
+{
+	/*background:#e5e5e0;*/
+	/*background-color: #000;*/
+}
 .thumbnail img
 {
 	width:100%;
@@ -9,10 +23,11 @@ a:hover
 .thumbnail
 {
 	padding:0;
+	background:#eaeaea;
 }
-h1, h2, h3
+.well
 {
-	font-weight: bold;
+	background:#eaeaea;
 }
 .comment-row
 {
@@ -53,4 +68,8 @@ div > .btn-back
 {	
 	background-color: #337ab7;
 	color:#fff;
+}
+.caption
+{
+	background:#eaeaea	;
 }

@@ -59,7 +59,7 @@ middlewareObj.checkReviewOwnership = (req, res, next)=>{
 				res.redirect("back");
 			}else{
 				//does user own the review
-				if(roundReview.author.id.equals(req.user._id)){
+				if(foundReview.author.id.equals(req.user._id)){
 					next();
 				}else{
 					req.flash("error", "You are not authorized to do that!!");
