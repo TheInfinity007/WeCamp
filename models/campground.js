@@ -37,6 +37,18 @@ var campgroundSchema = new mongoose.Schema({
 	}
 });
 
+campgroundSchema.pre('remove', async (next)=>{
+	try{
+		await Comment.remove({
+			"_id" : {
+				$in: this.comments
+			}
+		});
+	}catch(err){
+		next(err);
+	}
+});
+
 var Campground = mongoose.model("Campground", campgroundSchema);
 
 module.exports = Campground;

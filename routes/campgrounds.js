@@ -1,7 +1,9 @@
 var express = require("express");
 var router = express.Router();
 var Campground = require("../models/campground");
+var Comment = require("../models/comment");
 var middleware = require("../middleware");
+var Review = require("../models/review");
 
 
 /*INDEX ROUTE - show all campgrounds*/
@@ -19,7 +21,7 @@ router.get('/', (req, res)=>{
 /*CREATE ROUTE - add new campground to database*/
 router.post("/", middleware.isLoggedIn, (req, res)=>{
 	//get data from form and add to campgrounds array
-	console.log(req.body);
+	// console.log(req.body);
 	var name = req.body.name;
 	var cost = req.body.cost;
 	var image = req.body.image;
@@ -89,7 +91,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 			res.redirect("/campgrounds");
 		}else{
 			//deletes all comments associated with the campground
-			Comment.remvoe({"_id": {$in: campground.comments}}, (err)=>{
+			Comment.remove({"_id": {$in: campground.comments}}, (err)=>{
 				if(err){
 					console.log(err);
 					return res.redirect("/campgrounds");
@@ -103,7 +105,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 					//delete the campground
 					campground.remove();
 					req.flash("success", "Campground deleted successfully!");
-					req.redirect("/campgrounds");
+					res.redirect("/campgrounds");
 				});
 			});
 		}
