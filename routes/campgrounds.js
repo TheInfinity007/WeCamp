@@ -91,19 +91,19 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 			res.redirect("/campgrounds");
 		}else{
 			//deletes all comments associated with the campground
-			Comment.remove({"_id": {$in: campground.comments}}, (err)=>{
+			Comment.deleteMany({"_id": {$in: campground.comments}}, (err)=>{
 				if(err){
 					console.log(err);
 					return res.redirect("/campgrounds");
 				}
 				//deletes all the reviews associated with the campground
-				Review.remove({"_id": {$in: campground.reviews}}, (err)=>{
+				Review.deleteMany({"_id": {$in: campground.reviews}}, (err)=>{
 					if(err){
 						console.log(err);
 						res.redirect("/campgrounds");
 					}
 					//delete the campground
-					campground.remove();
+					campground.deleteOne();
 					req.flash("success", "Campground deleted successfully!");
 					res.redirect("/campgrounds");
 				});
