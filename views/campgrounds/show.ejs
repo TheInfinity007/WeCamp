@@ -90,31 +90,107 @@
 			</div>
 		</div>
 
+
+		<!-- Comment Section -->
+
 		<div class="well">
 			<div class="text-right">
-				<a class = "btn btn-success" href="/campgrounds/<%=campground._id%>/comments/new">Add New Comment</a>
+				<a href="#collapseComment" class = "btn btn-success pull-right" data-toggle="collapse">
+					<span class="glyphicon glyphicon-plus"></span>
+					 Add new comment
+				</a>
 			</div>
-			 <hr>
+
+			<!-- Comment Section title -->
+			<h4><strong>Comments <span class="glyphicon glyphicon-comment"></span></strong></h4>
+
+			<!-- Collapse add a comment from start -->
+			<div class="collapse" id="collapseComment">
+				<div class="well">
+					
+					<% if(!currentUser){ %>
+					<!-- if user is not logged in -->
+					<h5>You need to login before you can comment. <a href="/login">Click here</a> to go to the login page.</h5>
+				<% }else{ %>
+						<!-- if user logged in show the comment form -->
+						<h4>Write your comment
+							<span class="glyphicon glyphicon-pencil"></span>
+						</h4>
+						<form action="/campgrounds/<%=campground._id%>/comments" method="POST">
+							<div class="form-group">
+								<input type="text" class="form-control" disabled value="<%= currentUser.username %>">
+							</div>
+							<div class="form-group">
+								<textarea class="form-control" name="comment[text]" placeholder="Write You comment..." rows="5" cols="70"></textarea>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-success btn">Comment
+								</button>
+							</div>
+						</form>
+				<% } %>
+				</div>
+			</div>
+			<hr>
+
+			<!-- Checking if there are comments, if there are none say no comments -->
+			<% if(campground.comments.length === 0){%>
+			<em>No comments yet.</em>
+			<% }%>
+
+			<!-- Display Comments by looping through them -->
 			<% campground.comments.forEach((comment)=>{ %>
 				<div class="row comment-row">
 					<div class="col-md-12">
-						 <strong><%= comment.author.username %></strong>
-						 <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
-						 <p>
-							<%= comment.text %> 
-						</p>
-						<span class="pull-right e-d-btn">
+						<strong>
+						 	<% if(currentUser && currentUser._id.equals(comment.author.id)){ %>
+						 		<!-- if owner then show color if user icon -->
+						 		<span style="color:orange" class="glyphicon glyphicon-user"></span>
+						  	<% } else{ %>
+						  		<span class="glyphicon glyphicon-user"></span>
+							<% }%><%= comment.author.username %>
+						</strong>
+						<span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
+						<p><%= comment.text %></p>
+
+						
 						<% if((currentUser && comment.author.id.equals(currentUser._id)) || (currentUser && currentUser.isAdmin)){ %>
-							<a href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit" class="btn btn-xs btn-warning">Edit</a>
-							<form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" class="delete-form">
-								<button class="btn btn-xs btn-danger">Delete</button>
-							</form>
-							<% } %>
+							<span class="pull-right e-d-btn">
+								<a href="#collapseEdit<%= comment._id%>" class="btn btn-xs btn-warning" data-toggle="collapse">Edit</a>
+								<form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" class="delete-form">
+									<button class="btn btn-xs btn-danger">Delete</button>
+								</form>
 							</span>
+
+							<!-- Edit comment form -->
+							<div class="collapse collapseEdit" id="collapseEdit<%= comment._id%>"	>
+								<div class="well">
+									<h4>Edit your comment
+										<span class="glyphicon glyphicon-edit"></span>
+									</h4>
+									<form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=PUT" method="POST">
+										<div class="form-group">
+											<input type="text" class="form-control" disabled value="<%= currentUser.username%>">
+										</div>
+										<div class="form-group">
+											<textarea name="comment[text]" class="form-control" placeholder="Your comment text..."><%=comment.text%></textarea>
+										</div>
+										<div class="form-group">
+											<button class="btn btn-warning">Update comment <span class=""></span></button>
+										</div>
+									</form>
+								</div>	
+							</div>
+						<% } %>
+						<hr>							
 					</div>
 				</div>					
 			<% }) %>
 		</div>
+		<!-- Comment Section End -->
+
+
+		
 	</div>
 </div>
 

@@ -73,3 +73,9 @@ div > .btn-back
 {
 	background:#eaeaea	;
 }
+
+#collapseComment .well,
+.collapseEdit .well
+{
+	border-left:5px solid #00c851;
+}
