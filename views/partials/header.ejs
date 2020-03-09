@@ -38,12 +38,14 @@
 	</nav>
 	<div class="container">
 		<% if(error && error.length > 0){ %>
-		<div class="alert alert-danger">
+		<div class="alert alert-danger alert-dismissible fade in">
+			<a class="close" data-dismiss="alert">&times;</a>
 			<%= error %>
 		</div>	
 		<% } %>
 		<% if(success && success.length > 0) {%>
-		<div class="alert alert-success">
+		<div class="alert alert-success alert-dismissible fade in">
+			<a class="close" data-dismiss="alert">&times;</a>
 			<%= success %>
 		</div>	
 		<% } %>

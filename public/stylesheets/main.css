@@ -2,6 +2,7 @@ body
 {
 	/*background:rgba(0,0,0,0.1);*/
 	background-color: #eee;
+	background-color: #f4f4f4;
 }
 h1, h2, h3
 {
@@ -24,6 +25,7 @@ a:hover
 {
 	padding:0;
 	background:#eaeaea;
+	box-shadow:5px 5px 5px rgba(0,0,0,0.2);
 }
 .well
 {
@@ -71,7 +73,7 @@ div > .btn-back
 }
 .caption
 {
-	background:#eaeaea	;
+	background:#eaeaea;
 }
 
 #collapseComment .well,
