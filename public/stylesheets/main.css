@@ -1,8 +1,11 @@
 body
 {
-	/*background:rgba(0,0,0,0.1);*/
+	/*background:rgba(0,0,0,0.2);*/
 	background-color: #eee;
-	background-color: #f4f4f4;
+	/*background-color: #efefef;*/
+	/*background-color: #f4f4f4;*/
+	/*background-color: #f9f9f9;*/
+
 }
 h1, h2, h3
 {
@@ -21,13 +24,18 @@ a:hover
 {
 	text-decoration: none;
 }
+.jumbotron
+{
+	box-shadow:2px 2px 5px rgba(0,0,0,0.2);
+}
 .thumbnail
 {
 	padding:0;
 	background:#eaeaea;
 	box-shadow:5px 5px 5px rgba(0,0,0,0.2);
 }
-.well
+.well,
+.caption
 {
 	background:#eaeaea;
 }
@@ -71,10 +79,7 @@ div > .btn-back
 	background-color: #337ab7;
 	color:#fff;
 }
-.caption
-{
-	background:#eaeaea;
-}
+
 
 #collapseComment .well,
 .collapseEdit .well
