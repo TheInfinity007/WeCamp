@@ -16,28 +16,48 @@ nav.navbar
 	/*background:#e5e5e0;*/
 	/*background-color: #000;*/
 }
-.thumbnail img
-{
-	width:100%;
-}
+
 a:hover
 {
 	text-decoration: none;
 }
 .jumbotron
 {
-	box-shadow:2px 2px 5px rgba(0,0,0,0.2);
+	box-shadow:5px 5px 15px rgba(0,0,0,0.2);
 }
 .thumbnail
 {
 	padding:0;
 	background:#eaeaea;
 	box-shadow:5px 5px 5px rgba(0,0,0,0.2);
+	border-radius:13px;
 }
-.well,
+.thumbnail img
+{
+	width:100%;
+	border-top-left-radius: 13px;
+	border-top-right-radius: 13px;
+}
+.campground-item
+{
+	box-shadow:5px 5px 5px rgba(0,0,0,0.6);
+	transition:0.5s;
+}
+.campground-item:hover
+{
+	transform:scale(1.1);
+	box-shadow:5px 5px 15px rgba(0,0,0,0.3);
+}
 .caption
 {
 	background:#eaeaea;
+	border-radius:13px;
+}
+.well
+{
+	box-shadow:5px 5px 5px rgba(0,0,0,0.2);
+	background:#eaeaea;
+	border-radius:13px;
 }
 .comment-row
 {
