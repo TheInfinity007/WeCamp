@@ -8,14 +8,29 @@ var Review = require("../models/review");
 
 /*INDEX ROUTE - show all campgrounds*/
 router.get('/', (req, res)=>{
-	/* Get all the campgrounds from the DB*/
-	Campground.find({}, (err, allCampgrounds)=>{
-		if(err){
-			console.log(err);
-		}else{
-			res.render("campgrounds/index", {campgrounds: allCampgrounds, currentUser: req.user});
-		}
-	});
+	var noMatch;
+	if(req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search), "gi");
+		Campground.find({name: regex}, (err, allCampgrounds)=>{
+			if(err){
+				console.log(err);
+			}else{
+				if(allCampgrounds.length < 1){
+					noMatch = "No campgrounds match that query, please try again.";
+				}
+				res.render("campgrounds/index", {campgrounds: allCampgrounds, currentUser: req.user, noMatch: noMatch});
+			}
+		});
+	}else{
+		/* Get all the campgrounds from the DB*/
+		Campground.find({}, (err, allCampgrounds)=>{
+			if(err){
+				console.log(err);
+			}else{
+				res.render("campgrounds/index", {campgrounds: allCampgrounds, currentUser: req.user, noMatch: noMatch});
+			}
+		});
+	}
 });
 
 /*CREATE ROUTE - add new campground to database*/
@@ -114,5 +129,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 
 
 
-
+function escapeRegex(text){
+	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 module.exports = router;

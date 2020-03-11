@@ -5,11 +5,26 @@
 	<h1>Welcome To YelpCamp!</h1>
 	<p>View our hand-picked campgrounds from all over the world</p>
 	<p>
+		<form  action ="/campgrounds" method="GET" class="form-inline pull-right">
+			<div class="form-group">
+				<input type="text" name="search" placeholder="Campground search..." class="form-control">
+				<input type="submit" value="Search" class="btn btn-default">
+			</div>
+		</form>
+	</p>
+	<p>
 		<a href="/campgrounds/new" class = "btn btn-primary btn-lg">Add New Campground</a>
 	</p>
+	
 </header>
 
 <div class="row text-center" style="display:flex; flex-wrap:wrap;">
+	<% if(noMatch){ %>
+		<div class="col-md-12">
+			<h1><%= noMatch %></h1>
+		</div>
+	<% }%>
+	
 	<% campgrounds.forEach(function(campground){ %>
 		<div class = "col-md-3 col-sm-6">
 			<div class="thumbnail campground-item">
