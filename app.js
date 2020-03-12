@@ -23,6 +23,7 @@ var 	commentRoutes	= require("./routes/comments"),
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v12";
 
 mongoose.set('useUnifiedTopology', true);
+mongoose.set('useCreateIndex', true);
 mongoose.connect(url, {useNewUrlParser: true, useFindAndModify:false});
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");

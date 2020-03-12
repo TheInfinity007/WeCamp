@@ -3,6 +3,9 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var Campground = require("../models/campground");
+var async	= require("async");
+var nodemailer = require("nodemailer");
+var crypto = require("crypto");
 
 //root route
 router.get('/', (req, res)=>{
@@ -76,5 +79,50 @@ router.get("/users/:id", (req, res)=>{
 			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
 		});
 	});
+});
+
+//FORGET PASSWORD ROUTE
+router.get("/forgot", (req, res)=>{
+	res.render("forgot");
+});
+
+router.post("/forgot", (req, res, next)=>{
+	async.waterfall([
+		function(done){
+			crypto.randomBytes(20, (err, buffer)=>{
+				var token = buffer.toString("hex");
+				done(err, token);
+			});
+		},
+		function(token, done){
+			User.find({email: req.body.email}, (err, users)=>{
+				if(err){
+					console.log(err);
+					req.flash("error", err.message);
+					return res.redirect("back");
+				}
+				if(users.length < 1){
+					req.flash("error", "No account with that email address exists.");
+					return res.redirect("/forgot");
+				}
+				var user = users[0];
+				user.resetPasswordToken = token;
+				user.resetPasswordExpires =Date.now() + 3600000;		//1hour
+
+				user.save((err)=>{
+					if(err){
+						console.log(err);
+						req.flash("error", err.message);
+						return res.redirect("back");
+					}
+					done(err, token, user);
+				});
+			});
+		},
+		function(token, user, done){
+
+
+		}
+	]);
 });
 module.exports = router;
