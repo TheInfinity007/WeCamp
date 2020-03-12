@@ -120,9 +120,46 @@ router.post("/forgot", (req, res, next)=>{
 			});
 		},
 		function(token, user, done){
-
-
+			var smtpTransport = nodemailer.createTransport({
+				service: "Gmail",
+				auth: {
+					user: "theinfinity674@gmail.com",
+					pass: "rc10Infinity"
+				}
+			});
+			var mailOptions = {
+				to: user.email,
+				from: 'theinfinity674@gmail.com',
+				subject: "Node.js Password Reset",
+				text: "You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n" +
+						"Please click on the following link, or paste this into your browser to complete the process:\n\n" + 
+						"http://" + req.headers.host + "/reset/" + token + "\n\n" +
+						"If you did not request this, please ignore this email and your password will remain unchanged.\n"
+			};
+			// console.log(mailOptions);
+			var info = smtpTransport.sendMail(mailOptions, (err)=>{
+				console.log("mail sent");
+				req.flash("success", "An e-mail has been sent to" + user.email + " with further instructions");
+				done(err, "done");
+			});
+			console.log("INfo = ", info);
 		}
-	]);
+	], (err)=>{
+		if(err){
+			return next(err);
+		}
+		res.redirect("/forgot");
+	});
 });
+
+router.get("/reset/:token", (req, res)=>{
+	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, (err, user)=>{
+		if(!user){
+			req.flash("error", "Password reset token is invalid or has expired.");
+			return res.redirect("/forgot");
+		}
+		res.render("reset", {token: req.params.token});
+	})
+})
+
 module.exports = router;
