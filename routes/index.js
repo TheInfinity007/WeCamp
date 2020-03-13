@@ -136,13 +136,12 @@ router.post("/forgot", (req, res, next)=>{
 						"http://" + req.headers.host + "/reset/" + token + "\n\n" +
 						"If you did not request this, please ignore this email and your password will remain unchanged.\n"
 			};
-			// console.log(mailOptions);
 			var info = smtpTransport.sendMail(mailOptions, (err)=>{
 				console.log("mail sent");
-				req.flash("success", "An e-mail has been sent to" + user.email + " with further instructions");
+				req.flash("success", "An e-mail has been sent to " + user.email + " with further instructions");
 				done(err, "done");
 			});
-			console.log("INfo = ", info);
+			
 		}
 	], (err)=>{
 		if(err){
@@ -159,7 +158,75 @@ router.get("/reset/:token", (req, res)=>{
 			return res.redirect("/forgot");
 		}
 		res.render("reset", {token: req.params.token});
-	})
-})
+	});
+});
+
+router.post("/reset/:token", (req, res)=>{
+	async.waterfall([
+		function(done){
+			User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now()}}, (err, user)=>{
+				if(!user){
+					req.flash("error", "Password reset token is invalid or has expired.");
+					return res.redirect("back");
+				}
+				if(req.body.password === req.body.confirm){
+					user.setPassword(req.body.password, (err)=>{
+						user.resetPasswordToken = undefined;
+						user.resetPasswordExpires = undefined;
+
+						user.save((err)=>{
+							if(err){
+								console.log(err);
+								req.flash("error", err.message);
+								return res.redirect("back");
+							}
+							req.login(user, (err)=>{
+								if(err){
+									return res.redirect("/campgrounds");
+								}
+								done(err, user);
+							});
+						});
+					});
+				}else{
+					req.flash("error", "Passwords do not match. Try again later.");
+					return res.redirect("back");
+				}
+			});
+		},
+		function(user, done){
+			var smtpTransport = nodemailer.createTransport({
+				service: "Gmail",
+				auth: {
+					user: "theinfinity674@gmail.com",
+					pass: "rc10Infinity"
+				}
+			});
+			var mailOptions = {
+				to: user.email,
+				from: "theinfinity674@gmail.com",
+				subject: "Your password has been changed",
+				text: "Hello,\n\n" + 
+						"This is a confirmation that the password for your account " + user.email + " has just changed."
+			};
+			smtpTransport.sendMail(mailOptions, (err)=>{
+				if(err){
+					console.log(err);
+					req.flash("error", err.message);
+					return res.redirect("/campgrounds");
+				}
+				console.log("mail sent2");
+				req.flash("success", "Success! Your password has been changed.");
+			});
+			done(err, "done");
+		}
+	], (err)=>{
+		if(err){
+			console.log(err);
+			console.log("Entered the error");
+		}
+		 res.redirect("/campgrounds");
+	});
+});
 
 module.exports = router;
