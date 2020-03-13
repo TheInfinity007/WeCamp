@@ -11,12 +11,6 @@ h1, h2, h3
 {
 	font-weight: bold;
 }
-nav.navbar
-{
-	/*background:#e5e5e0;*/
-	/*background-color: #000;*/
-}
-
 a:hover
 {
 	text-decoration: none;
@@ -77,6 +71,11 @@ a:hover
 {
 	width:30%;
 	margin: 25px auto;
+}
+.form-horizontal
+{
+	width:50%;
+	margin:25px auto;
 }
 .checked
 {

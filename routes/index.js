@@ -124,7 +124,7 @@ router.post("/forgot", (req, res, next)=>{
 				service: "Gmail",
 				auth: {
 					user: "theinfinity674@gmail.com",
-					pass: "rc10Infinity"
+					pass: process.env.GMAILPW
 				}
 			});
 			var mailOptions = {
@@ -199,7 +199,7 @@ router.post("/reset/:token", (req, res)=>{
 				service: "Gmail",
 				auth: {
 					user: "theinfinity674@gmail.com",
-					pass: "rc10Infinity"
+					pass: process.env.GMAILPW
 				}
 			});
 			var mailOptions = {
