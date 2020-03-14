@@ -96,7 +96,7 @@ router.put("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 		}else{
 			res.redirect("/campgrounds/" + req.params.id);
 		}
-	})
+	});
 });
 
 //DELETE  CAMPGROUND ROUTE
