@@ -64,22 +64,7 @@ router.get("/logout", (req, res)=>{
 	res.redirect("back");
 });
 
-//USER PROFILE
-router.get("/users/:id", (req, res)=>{
-	User.findById(req.params.id, (err, foundUser)=>{
-		if(err){
-			req.flash("error", "Something went wrong.");
-			res.redirect("/");
-		}
-		Campground.find().where("author.id").equals(foundUser._id).exec((err, campgrounds)=>{
-			if(err){
-				req.flash("error", "Something went wrong.");
-				res.redirect("/");
-			}
-			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
-		});
-	});
-});
+
 
 //FORGET PASSWORD ROUTE
 router.get("/forgot", (req, res)=>{

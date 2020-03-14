@@ -8,9 +8,9 @@ var userSchema = new mongoose.Schema({
 		required: true
 	},
 	password: String,
-	avatar: String,
+	avatar: { type: String, default: "https://upload.wikimedia.org/wikipedia/commons/6/67/User_Avatar.png" },
 	firstName: String,
-	lastName:String,
+	lastName:{type: String, default: ""},
 	email: {
 		type: String,
 		unique: true,
