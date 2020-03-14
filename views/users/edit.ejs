@@ -4,51 +4,51 @@
 	<div class="col-sm-offset-1 col-sm-10">
 		<h1 class="text-center">Edit Profile</h1>	
 		<div class="row">
-			<div class="col-sm-4">
-				<img src="<%= user.avatar %>" alt="user profile image" style="max-width:250px; margin:0; float:left">
+			<div class="col-sm-4" style="display:flex; justify-content: center; height:100%; margin-top:25px">
+				<img src="<%= user.avatar %>" alt="user profile image" style="max-width:250px; margin:0;">
 			</div>
 			<div class="col-sm-8 form-horizontal">
-				<form action="" method="POST">
+				<form action="/users/<%=user._id%>?_method=PUT" method="POST">
 					<div class="form-group">
 						<label for = "username" class = "control-label col-md-3">Username*:</label>
 						<div class="col-md-9">
-							<input type="text" name="username" placeholder="john123" class="form-control" value="<%= user.username%>" required>		
+							<input type="text" name="user[username]" placeholder="john123" class="form-control" value="<%= user.username%>" required>		
 						</div>
 					</div>
 					<div class="form-group">
 						<label for = "firstName" class = "control-label col-md-3">First Name*:</label>
 						<div class="col-md-9">
-							<input type="text" name="firstName" placeholder="John" class="form-control" value="<%= user.firstName%>" required>		
+							<input type="text" name="user[firstName]" placeholder="John" class="form-control" value="<%= user.firstName%>" required>		
 						</div>
 					</div>
 					<div class="form-group">
 						<label for = "lastName" class = "control-label col-md-3">Last Name:</label>
 						<div class="col-md-9">
-							<input type="text" name="lastName" placeholder="last name" class="form-control" value="<%= user.lastName%>">		
+							<input type="text" name="user[lastName]" placeholder="last name" class="form-control" value="<%= user.lastName%>">		
 						</div>
 					</div>
 					<div class="form-group">
 						<label for = "email" class = "control-label col-md-3">email:</label>
 						<div class="col-md-9">
-							<input type="email" name="email" placeholder="john@doe.com" class="form-control" value="<%= user.email%>">		
+							<input type="email" name="user[email]" placeholder="john@doe.com" class="form-control" value="<%= user.email%>">		
 						</div>
 					</div>
 					<div class="form-group">
 						<label for = "description" class = "control-label col-md-3">Description:</label>
 						<div class="col-md-9">
-							<textarea row="5" cols="75" name="email" placeholder="Something about you" class="form-control"><%= user.description%></textarea>		
+							<textarea row="5" cols="75" name="user[description]" placeholder="Something about you" class="form-control"><%= user.description%></textarea>		
 						</div>
 					</div>
 					<div class="form-group">
 						<label for = "avatar" class = "control-label col-md-3">Avatar:</label>
 						<div class="col-md-9">
-							<input type="text" name="avatar" placeholder="set your avatar" class="form-control">		
+							<input type="text" name="user[avatar]" placeholder="set your avatar" class="form-control">		
 						</div>
 					</div>
 					<div class="form-group">
 						<label for = "adminCode" class = "control-label col-md-3">Admin Code:</label>
 						<div class="col-md-9">
-							<input type="text" name="adminCode" placeholder="optional" class="form-control">
+							<input type="text" name="user[adminCode]" placeholder="optional" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -59,13 +59,8 @@
 					
 				</form>
 			</div>
-		</div>
-		<!-- <h1><%= user.firstName + " " + user.lastName %></h1> -->
-		
-		
-<!-- 		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non		proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
+		</div>	
 	</div>
-	
 </div>
 
 <%- include('../partials/footer') %>

@@ -26,6 +26,7 @@ router.get("/users/:user_id", (req, res)=>{
 	});
 });
 
+/*USER EDIT ROUTE*/
 router.get("/users/:user_id/edit", (req, res)=>{
 	User.findById(req.params.user_id, (err, foundUser)=>{
 		if(err || !foundUser){
@@ -35,6 +36,18 @@ router.get("/users/:user_id/edit", (req, res)=>{
 		res.render("users/edit", {user: foundUser});
 	});
 });
+
+/*USER UPDATE ROUTE*/
+router.put("/users/:user_id", (req, res)=>{
+	Users.findByIdAndUpdate(req.params.user_id, (err, foundUser)=>{
+		if(err || !foundUser){
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+	});
+});
+
+
 
 
 module.exports = router;
