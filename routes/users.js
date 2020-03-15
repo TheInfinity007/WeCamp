@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router({mergeParams: true});
-var passport = require("passport");
 var User = require("../models/user");
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var Review = require("../models/review");
+var middleware = require("../middleware");
 
 
 router.get("/users", (req, res)=>{
@@ -29,7 +29,7 @@ router.get("/users/:user_id", (req, res)=>{
 });
 
 /*USER EDIT ROUTE*/
-router.get("/users/:user_id/edit", (req, res)=>{
+router.get("/users/:user_id/edit", middleware.checkUserOwnership,  (req, res)=>{
 	User.findById(req.params.user_id, (err, foundUser)=>{
 		if(err || !foundUser){
 			req.flash("error", "No User found");
@@ -40,7 +40,7 @@ router.get("/users/:user_id/edit", (req, res)=>{
 });
 
 /*USER UPDATE ROUTE*/
-router.put("/users/:user_id", (req, res)=>{
+router.put("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 	User.findByIdAndUpdate(req.params.user_id, req.body.user, (err, foundUser)=>{
 		if(err || !foundUser){
 			req.flash("error", err.message);
@@ -52,7 +52,7 @@ router.put("/users/:user_id", (req, res)=>{
 });
 
 /*USER DELETE ROUTE*/
-router.delete("/users/:user_id", (req, res)=>{
+router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 	User.findById(req.params.user_id, (err, user)=>{
 		if(err || !user){
 			req.flash("error", "No user found");
@@ -82,7 +82,6 @@ router.delete("/users/:user_id", (req, res)=>{
 					});
 				});
 			 });
-			 console.log("All campground deleted");
 		});
 		//delete all comments associated with the user
 		Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
@@ -93,7 +92,6 @@ router.delete("/users/:user_id", (req, res)=>{
 			comments.forEach((comment)=>{
 				comment.deleteOne();
 			});
-			console.log("All Comments deleted");
 		});
 
 		//delete all review associated with the user
@@ -105,10 +103,10 @@ router.delete("/users/:user_id", (req, res)=>{
 			reviews.forEach((review)=>{
 				review.deleteOne();
 			});
-			console.log("All reviews deleted ");
 		});
-		req.flash("flash", "Success, " + user  + " has been deleted");
-		user.deleteOne();
+		// req.flash("flash", "Success, " + user  + " has been deleted");
+		user.deleteOne();	
+		req.flash("flash", "Success, User  has been deleted");
 		res.redirect("/campgrounds");
 	});
 });

@@ -2,6 +2,7 @@
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var Review = require("../models/review");
+var User = require("../models/user");
 
 var middlewareObj = {};
 
@@ -94,6 +95,26 @@ middlewareObj.checkReviewExistence = (req, res, next)=>{
 	}else{
 		req.flash("error", "You need to login first.");
 		res.redirect("back");
+	}
+}
+
+middlewareObj.checkUserOwnership = (req, res, next)=>{
+	if(req.isAuthenticated()){
+		User.findById(req.params.user_id, (err, foundUser)=>{
+			if(err || !foundUser){
+				req.flash("error", "Review not found");
+				return res.redirect("back");
+			}
+			if(foundUser._id.equals(req.user._id) || req.user.isAdmin){
+				next();
+			}else{
+				req.flash("error", "You are not authorized to do that!!");
+				res.redirect("back");
+			}
+		});
+	}else{
+		req.flash("error", "You need to login first.");
+		res.redirect("/login");
 	}
 }
 middlewareObj.isLoggedIn = (req, res, next)=>{
