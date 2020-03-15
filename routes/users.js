@@ -39,12 +39,26 @@ router.get("/users/:user_id/edit", (req, res)=>{
 
 /*USER UPDATE ROUTE*/
 router.put("/users/:user_id", (req, res)=>{
-	Users.findByIdAndUpdate(req.params.user_id, (err, foundUser)=>{
+	User.findByIdAndUpdate(req.params.user_id, req.body.user, (err, foundUser)=>{
 		if(err || !foundUser){
 			req.flash("error", err.message);
 			return res.redirect("back");
 		}
+		req.flash("Your profile has been update.");
+		res.redirect("/users/"+ req.params.user_id);
 	});
+});
+
+/*USER DELETE ROUTE*/
+router.delete("/users/:user_id", (req, res)=>{
+	User.findById(req.params.user_id, (err, user)=>{
+		if(err || !user){
+			req.flash("error", "No user found");
+			return res.redirect("back");
+		}
+		console.log("Delete requrest received");
+		res.send("Delete route");
+	})
 });
 
 

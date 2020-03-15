@@ -25,12 +25,11 @@ a:hover
 	background:#eaeaea;
 	box-shadow:5px 5px 5px rgba(0,0,0,0.2);
 	border-radius:13px;
+	overflow:hidden;
 }
 .thumbnail img
 {
 	width:100%;
-	border-top-left-radius: 13px;
-	border-top-right-radius: 13px;
 }
 .campground-item
 {
