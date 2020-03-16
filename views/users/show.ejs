@@ -1,7 +1,8 @@
 <%- include('../partials/header') %>
 
 <div class="row">	
-	<h1 class="text-center" style="text-transform: capitalize;"><%= user.firstName + " " + user.lastName %>'s Profile</h1>
+	<h1 class="text-center" style="text-transform: capitalize;">
+		<%= user.firstName %><%if(user.lastName.length > 1){%> <%}%><%= user.lastName %>'s Profile</h1>
 	<div class="col-sm-4">
 		<div class="thumbnail" style="border-radius:50%">
 			<img src="<%= user.avatar %>" alt="user profile image" style="border-radius:50%" class="img-responsive">					
@@ -15,7 +16,13 @@
 		
 		
 		<div class="description"><h3>About</h3>
-			<div><%= user.description %></div>
+			<p>
+				<% if(user.description.length < 1){ %>
+				No Description Yet
+				<% }else{ %>
+ 				<%= user.description %>
+				<% }%>
+			</p>
 		</div>
 	</div>
 	<div class="col-sm-8" style="padding:15px 35px">
