@@ -15,6 +15,15 @@ a:hover
 {
 	text-decoration: none;
 }
+.fa.fa-ellipsis-v
+{
+	font-size:2rem;
+}
+.fa.fa-ellipsis-v:hover
+{
+	color:#fff;
+}
+
 .jumbotron
 {
 	box-shadow:5px 5px 15px rgba(0,0,0,0.2);

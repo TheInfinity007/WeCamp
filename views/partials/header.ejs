@@ -31,7 +31,13 @@
 					<% }else{ %>
 						<li><a>Signed In As <%= currentUser.username %></a></li>
 						<li><a href="/logout">Logout</a></li>
+						<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-ellipsis-v"></i></a>
+							<ul class="dropdown-menu" style="padding:0; background:#eeeeee">
+								<li><a href="/users/<%=currentUser._id%>">Profile</a></li>
+							</ul>
+						</li>
 					<% } %>				
+					
 				</ul>
 			</div>
 		</div>
