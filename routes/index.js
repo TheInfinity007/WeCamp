@@ -30,6 +30,9 @@ router.post("/register", (req, res)=>{
 	if(req.body.adminCode == "rcadmin"){
 		newUser.isAdmin = true;
 	}
+	if(newUser.avatar === ""){
+		newUser.avatar = "https://upload.wikimedia.org/wikipedia/commons/6/67/User_Avatar.png";
+	}
 	User.register(newUser, password, (err, user)=>{
 		if(err){
 			console.log(err);

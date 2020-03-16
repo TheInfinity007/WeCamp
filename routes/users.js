@@ -79,35 +79,37 @@ router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 						}
 						//delete the campground
 						campground.deleteOne();
+
+						//delete all comments associated with the user
+						Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
+							if(err){
+								req.flash("error", "Something went wrong");
+								return res.redirect("back");
+							}
+							comments.forEach((comment)=>{
+								comment.deleteOne();
+							});
+
+							//delete all review associated with the user
+							Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
+								if(err){
+									req.flash("error", "Something went wrong");
+									return res.redirect("back");
+								}
+								reviews.forEach((review)=>{
+									review.deleteOne();
+								});
+								
+								// req.flash("flash", "Success, " + user  + " has been deleted");
+								user.deleteOne();	
+								req.flash("success", "Success, User  has been deleted");
+								res.redirect("/campgrounds");
+							});					
+						});
 					});
 				});
 			 });
 		});
-		//delete all comments associated with the user
-		Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
-			if(err){
-				req.flash("error", "Something went wrong");
-				return res.redirect("back");
-			}
-			comments.forEach((comment)=>{
-				comment.deleteOne();
-			});
-		});
-
-		//delete all review associated with the user
-		Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
-			if(err){
-				req.flash("error", "Something went wrong");
-				return res.redirect("back");
-			}
-			reviews.forEach((review)=>{
-				review.deleteOne();
-			});
-		});
-		// req.flash("flash", "Success, " + user  + " has been deleted");
-		user.deleteOne();	
-		req.flash("flash", "Success, User  has been deleted");
-		res.redirect("/campgrounds");
 	});
 });
 

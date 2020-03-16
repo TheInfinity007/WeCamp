@@ -128,7 +128,7 @@ router.delete("/:id", middleware.checkCampgroundOwnership, (req, res)=>{
 });
 
 
-
+/*FOR THE INDEX ROUTE - SEARCH FEATURE*/
 function escapeRegex(text){
 	return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 }
