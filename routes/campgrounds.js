@@ -9,26 +9,50 @@ var Review = require("../models/review");
 /*INDEX ROUTE - show all campgrounds*/
 router.get('/', (req, res)=>{
 	var noMatch;
+	var perPage = 8;
+	var pageQuery = parseInt(req.query.page);
+	var pageNo = pageQuery ? pageQuery: 1;
+
 	if(req.query.search){
 		const regex = new RegExp(escapeRegex(req.query.search), "gi");
-		Campground.find({name: regex}, (err, allCampgrounds)=>{
-			if(err){
-				console.log(err);
-			}else{
-				if(allCampgrounds.length < 1){
-					noMatch = "No campgrounds match that query, please try again.";
+		Campground.find({name: regex}).skip((perPage*pageQuery)- perPage).limit(perPage).exec((err, allCampgrounds)=>{
+			Campground.countDocuments({name: regex}).exec((err, count)=>{
+				if(err){
+					console.log(err);
+					res.render("back");
+				}else{
+					if(allCampgrounds.length < 1){
+						noMatch = "No campgrounds match that query, please try again.";
+					}
+					res.render("campgrounds/index", {
+						campgrounds: allCampgrounds,
+						currentUser: req.user,
+						noMatch: noMatch,
+						pages: Math.ceil(count / perPage),
+						search: req.query.search,
+						current: pageNo
+					});
 				}
-				res.render("campgrounds/index", {campgrounds: allCampgrounds, currentUser: req.user, noMatch: noMatch});
-			}
+			});
 		});
 	}else{
 		/* Get all the campgrounds from the DB*/
-		Campground.find({}, (err, allCampgrounds)=>{
-			if(err){
-				console.log(err);
-			}else{
-				res.render("campgrounds/index", {campgrounds: allCampgrounds, currentUser: req.user, noMatch: noMatch});
-			}
+		Campground.find({}).skip((perPage*pageQuery)-perPage).limit(perPage).exec((err, allCampgrounds)=>{
+			Campground.countDocuments().exec((err, count)=>{
+				if(err){
+					console.log(err);
+					res.rediect("back");
+				}else{
+					res.render("campgrounds/index", {
+						campgrounds: allCampgrounds,
+						currentUser: req.user,
+						noMatch: noMatch,
+						pages: Math.ceil(count / perPage),
+						current: pageNo,
+						search:false
+					});
+				}
+			});
 		});
 	}
 });
