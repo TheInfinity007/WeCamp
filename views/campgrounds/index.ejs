@@ -61,9 +61,9 @@
 			<% } %>
 
 			<% if(current == 1){%>
-				<li class="disabled"><a><<</a></li>	
+				<li class="disabled"><a><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>	
 			<%}else{%>
-				<li><a href="/campgrounds?page=<%= Number(current)-1%><%if(search){%>&search=<%=search%><%}%>"><<</a></li>
+				<li><a href="/campgrounds?page=<%= Number(current)-1%><%if(search){%>&search=<%=search%><%}%>"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
 			<%}%>
 
 			<%var i = (Number(current) > 5 ? Number(current)-4 : 1) %>
@@ -83,9 +83,9 @@
 			<%}%>
 
 			<%if(current == pages){%>
-				<li class="disabled"><a>>></a></li>
+				<li class="disabled"><a><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
 			<%}else{%>
-				<li><a href="/campgrounds?page=<%=Number(current)+1%><%if(search){%>&search=<%= search %><%}%>">>></a></li>
+				<li><a href="/campgrounds?page=<%=Number(current)+1%><%if(search){%>&search=<%= search %><%}%>"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
 			<%}%>
 
 			<%if(current == pages){%>
