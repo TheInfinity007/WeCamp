@@ -1,0 +1,2 @@
+notification feature - They are in-app notifications. Allow user to follow another user or any no of users. If they created a post you get a notification about the post.
+
