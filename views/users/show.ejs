@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
 <div class="row">	
-	<h1 class="text-center" style="text-transform: capitalize;">
+	<h1 class="text-center text-capitalize">
 		<%= user.firstName %><%if(user.lastName.length > 1){%> <%}%><%= user.lastName %>'s Profile</h1>
 	<div class="col-sm-4">
 		<div class="thumbnail" style="border-radius:50%">
@@ -32,6 +32,9 @@
 			<li><a href="/campgrounds/<%= campground.id %>"><%= campground.name %></a></li>
 		<% }) %>
 		</ul>
+		<div class="follow text-capitalize">
+			<a href="/follow/<%= user._id %>" class="btn btn-info btn-follow">Follow <%= user.username%> <i class="fa fa-plus"></i></a>
+		</div>
 	</div>
 </div>
 <div class="row">

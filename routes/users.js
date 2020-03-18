@@ -79,40 +79,55 @@ router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 						}
 						//delete the campground
 						campground.deleteOne();
-
-						//delete all comments associated with the user
-						Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
-							if(err){
-								req.flash("error", "Something went wrong");
-								return res.redirect("back");
-							}
-							comments.forEach((comment)=>{
-								comment.deleteOne();
-							});
-
-							//delete all review associated with the user
-							Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
-								if(err){
-									req.flash("error", "Something went wrong");
-									return res.redirect("back");
-								}
-								reviews.forEach((review)=>{
-									review.deleteOne();
-								});
-								
-								// req.flash("flash", "Success, " + user  + " has been deleted");
-								user.deleteOne();	
-								req.flash("success", "Success, User  has been deleted");
-								res.redirect("/campgrounds");
-							});					
-						});
 					});
 				});
-			 });
+			});
+
+			//delete all comments associated with the user
+			Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
+				if(err){
+					req.flash("error", "Something went wrong");
+					return res.redirect("back");
+				}
+				comments.forEach((comment)=>{
+					comment.deleteOne();
+				});
+
+				//delete all review associated with the user
+				Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
+					if(err){
+						req.flash("error", "Something went wrong");
+						return res.redirect("back");
+					}
+					reviews.forEach((review)=>{
+						review.deleteOne();
+					});
+					
+					// req.flash("flash", "Success, " + user  + " has been deleted");
+					user.deleteOne();	
+					req.flash("success", "Success, User  has been deleted");
+					res.redirect("/campgrounds");
+				});					
+			});			 
 		});
 	});
 });
 
+
+//FOLLOW ROUTE
+router.get("/follow/:user_id", middleware.isLoggedIn, (req, res)=>{
+	User.findById(req.params.user_id, (err, foundUser)=>{
+		if(err){
+			console.log(err);
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		foundUser.followers.push(req.user._id);
+		foundUser.save();
+		req.flash("success", "Successfully followed " + foundUser.username + "!");
+		res.redirect("/users/" + req.params.user_id);
+	});
+});
 
 
 

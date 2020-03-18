@@ -75,8 +75,9 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
 	Campground.create(newCampground, (err, newlyCreated)=>{
 		if(err){
 			console.log(err);
+			res.redirect("back");
 		}else{
-			res.redirect("/campgrounds");
+			res.redirect("/campgrounds/" + newlyCreated._id);
 		}
 	});	
 });
