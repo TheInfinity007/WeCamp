@@ -1,9 +1,10 @@
 var express = require("express");
-var router = express.Router();
+var router = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var Review = require("../models/review");
+var Notification = require("../models/notification");
 
 
 /*INDEX ROUTE - show all campgrounds*/
@@ -72,12 +73,35 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
 	var newCampground = {name: name, image: image, description: description, author: author, cost: cost};
 	// console.log(req.user);
 	/* Create a new campground and save to db */
-	Campground.create(newCampground, (err, newlyCreated)=>{
+	Campground.create(newCampground, (err, campground)=>{
 		if(err){
 			console.log(err);
+			req.flash("error", err.message);
 			res.redirect("back");
 		}else{
-			res.redirect("/campgrounds/" + newlyCreated._id);
+			User.findById(req.user._id).populate("followers").exec((err, user)=>{
+				if(err){
+					console.log(err);
+					req.flash("error", err.message);
+					return res.redirect("back");
+				}
+				var newNotification = {
+					username: req.user.username,
+					campgroundId: campground._id
+				};
+				Notification.create(newNotification, (err, notification)=>{
+					if(err){
+						console.log(err);
+						req.flash("error", err.message);
+						return res.redirect("back");	
+					}
+					for(const follower of user.followers){
+						follower.notifications.push(notification);
+						follower.save();
+					}
+					res.redirect("/campgrounds/" + campground._id);		
+				});
+			});
 		}
 	});	
 });

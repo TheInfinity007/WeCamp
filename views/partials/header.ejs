@@ -30,9 +30,16 @@
 						<li><a href="/register">Sign Up</a></li>
 					<% }else{ %>
 						<li class="dropdown">
-							<a data-toggle="dropdown" class="dropdown-toggle">Notifications <span class="badge">5</span></a>
+							<a data-toggle="dropdown" class="dropdown-toggle">Notifications <span class="badge"><%= notifications.length %></span></a>
 							<ul class="dropdown-menu" style="padding:0; background:#eeeeee">
 								<li><a href="/notifications">View past notifications</a></li>
+								<li class="divider"></li>
+								<% var i = 0; %>
+								<% notifications.forEach((notification)=>{ %>
+									<li>
+										<a href="/notifications/<%= notification._id%>"><%= notification.username%> created a new campground</a>		
+									</li>
+								<% }); %>
 							</ul>
 						</li>
 
@@ -63,7 +70,7 @@
 		</div>	
 		<% } %>
 	</div>
-
+	
 	
 	<div class="container">
 	

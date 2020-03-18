@@ -13,6 +13,7 @@ var express  			= require('express'),
 	  Campground 		= require('./models/campground'),
 	  Comment			= require('./models/comment'),
 	  User 					= require("./models/user"),
+	  Notification		= require("./models/notification"),
 	  seedDB				= require('./seeds.js');
 
 //requiring routes
@@ -51,6 +52,14 @@ passport.deserializeUser(User.deserializeUser());
 /*this is middleware that will run for every single route*/
 app.use((req, res, next)=>{
 	res.locals.currentUser = req.user;
+	if(req.user){
+		User.findById(req.user._id).populate("notifications", null, {isRead: false}).exec((err, user)=>{
+			if(err){
+				console.log(err);
+			}
+			res.locals.notifications = user.notifications.reverse();
+		});
+	}
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	next();

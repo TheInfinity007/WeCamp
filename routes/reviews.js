@@ -53,7 +53,7 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, (req, r
 			campground.rating = calculateAverage(campground.reviews);
 			campground.save();
 			req.flash("success", "Your review has been successfully added.");
-			res.redirect("/campgrounds");
+			res.redirect("/campgrounds/" + req.params.id);
 		});
 	});
 });
