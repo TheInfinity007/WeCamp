@@ -143,11 +143,23 @@ div > .btn-back
 {
 	    margin: 3px 0;
 }
+.notifications
+{
+	padding:3vw;
+	background:#eaeaea;
+	border-radius:10px;
+	min-height: 70vh;
+}
 @media(max-width: 768px)
 {
 	.notifications
 	{
 		padding: 3vw;
+
+	}
+	.notifications h1
+	{
+		text-align:center;
 	}
 }
 @media(min-width:768px)
