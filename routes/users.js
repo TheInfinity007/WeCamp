@@ -103,8 +103,19 @@ router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 					reviews.forEach((review)=>{
 						review.deleteOne();
 					});
+
+					Notification.find({username: {$eq: req.user.username}}).exec((err, notifications)=>{
+						if(err){
+							console.log(err);
+							req.flash("error", "Something went wrong.");
+							return res.redirect("back");
+						}
+						console.log(notifications);
+						notifications.forEach((notification)=>{
+							notification.deleteOne();
+						});
+					});
 					
-					// req.flash("flash", "Success, " + user  + " has been deleted");
 					user.deleteOne();	
 					req.flash("success", "Success, User  has been deleted");
 					res.redirect("/campgrounds");

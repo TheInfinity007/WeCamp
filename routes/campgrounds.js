@@ -89,18 +89,18 @@ router.post("/", middleware.isLoggedIn, (req, res)=>{
 					username: req.user.username,
 					campgroundId: campground._id
 				};
-				Notification.create(newNotification, (err, notification)=>{
-					if(err){
-						console.log(err);
-						req.flash("error", err.message);
-						return res.redirect("back");	
-					}
-					for(const follower of user.followers){
+				for(const follower of user.followers){
+					Notification.create(newNotification, (err, notification)=>{
+						if(err){
+							console.log(err);
+							req.flash("error", err.message);
+							return res.redirect("back");	
+						}
 						follower.notifications.push(notification);
 						follower.save();
-					}
-					res.redirect("/campgrounds/" + campground._id);		
-				});
+					});
+				}
+				res.redirect("/campgrounds/" + campground._id);		
 			});
 		}
 	});	

@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 
-<div class="row notifications">	
+<div class="row profile-page">	
 	<h1 class="text-center text-capitalize">
 		<%= user.firstName %><%if(user.lastName.length > 1){%> <%}%><%= user.lastName %>'s Profile</h1>
 	<div class="col-sm-4">
@@ -33,15 +33,16 @@
 		<% }) %>
 		</ul>
 		<div class="follow text-capitalize">
+			<% if(currentUser && !(user._id.equals(currentUser._id))){ %>
 			<a href="/follow/<%= user._id %>" class="btn btn-info btn-follow">Follow <%= user.username%> <i class="fa fa-plus"></i></a>
+			<% } %>
 		</div>
 	</div>
 </div>
 <div class="row">
-	<div class="col-sm-12"  style=" margin-top:40px">
+	<div class="col-sm-12"  style="margin-left:3vw;">
 		<span><a href="/campgrounds" class="">Go Back</a></span>	
 	</div>
-	
 </div>
 
 
