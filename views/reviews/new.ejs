@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 
-<div class="row">
+<div class="row notifications">
 	<h1 class="text-center">New Review: <%= campground.name %></h1>
 	<div class="form">
 		<form action="/campgrounds/<%=campground._id %>/reviews" method="POST">

@@ -148,7 +148,7 @@ div > .btn-back
 	padding:3vw;
 	background:#eaeaea;
 	border-radius:10px;
-	min-height: 70vh;
+	min-height: 90vh;
 }
 @media(max-width: 768px)
 {
