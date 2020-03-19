@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+
+<div class="row">
+	<div class="col-sm-offset-1 notifications">
+		<h1>Notifications</h1>
+		<ul>
+			<% allNotifications.forEach((notification)=>{ %>
+				<li>
+					<a href="/campgrounds/<%= notification.campgroundId %>">
+						<span class="text-capitalize"><%= notification.username %></span> created a new campground. 
+					</a>
+				</li>
+			<% }); %>
+		</ul>
+	</div>	
+</div>
+<%- include('../partials/footer') %>
+
+<script type="">
+		$(document).ready(function() {
+			$('.nav > li > a:contains("Notifications")').parent().addClass('active');
+		});
+	</script>

@@ -6,6 +6,7 @@
   	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- Bootstrap 3 cdn -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<!-- Fontawesome 4.7 cdn -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
 </head>
@@ -34,12 +35,14 @@
 							<ul class="dropdown-menu" style="padding:0; background:#eeeeee">
 								<li><a href="/notifications">View past notifications</a></li>
 								<li class="divider"></li>
-								<% var i = 0; %>
 								<% notifications.forEach((notification)=>{ %>
 									<li>
 										<a href="/notifications/<%= notification._id%>"><%= notification.username%> created a new campground</a>		
 									</li>
 								<% }); %>
+								<% if(notifications.length < 1){ %> 
+									<li class="text"><a>No new notifications...</a></li>
+								<% } %>
 							</ul>
 						</li>
 
@@ -50,8 +53,7 @@
 								<li><a href="/users/<%=currentUser._id%>">Profile</a></li>
 							</ul>
 						</li>
-					<% } %>				
-					
+					<% } %>									
 				</ul>
 			</div>
 		</div>
@@ -73,5 +75,3 @@
 	
 	
 	<div class="container">
-	
-	

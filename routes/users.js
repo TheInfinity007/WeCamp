@@ -4,6 +4,7 @@ var User = require("../models/user");
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 var Review = require("../models/review");
+var Notification = require("../models/notification");
 var middleware = require("../middleware");
 
 
@@ -126,6 +127,27 @@ router.get("/follow/:user_id", middleware.isLoggedIn, (req, res)=>{
 		foundUser.save();
 		req.flash("success", "Successfully followed " + foundUser.username + "!");
 		res.redirect("/users/" + req.params.user_id);
+	});
+});
+
+router.get("/notifications", middleware.isLoggedIn, (req, res)=>{
+	User.findById(req.user._id).populate({
+		path: "notifications",
+		options: { sort: { "id": -1}}
+	}).exec((err, user)=>{
+		res.render("notifications/notification", { allNotifications: user.notifications});
+	});
+});
+
+router.get("/notifications/:notification_id", middleware.isLoggedIn, (req, res)=>{
+	Notification.findById(req.params.notification_id, (err, notification)=>{
+		if(err){
+			req.flash("error", "err.message");
+			res.redirect("back");
+		}
+		notification.isRead = true;
+		notification.save();
+		res.redirect(`/campgrounds/${notification.campgroundId}`);
 	});
 });
 

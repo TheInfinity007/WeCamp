@@ -17,7 +17,7 @@
 	
 </header>
 
-<div class="row text-center" style="display:flex; flex-wrap:wrap;">
+<div class="row text-center" style="display:flex; flex-wrap:wrap; align-items:stretch; justify-content: center">
 	<% if(noMatch){ %>
 		<div class="col-md-12">
 			<h1><%= noMatch %></h1>
@@ -25,7 +25,7 @@
 	<% }%>
 	
 	<% campgrounds.forEach(function(campground){ %>
-		<div class = "col-md-3 col-sm-6">
+		<div class = "col-md-3 col-sm-6 campground-items">
 			<div class="thumbnail campground-item">
 				<img src="<%= campground.image %>">  
 				<div class="caption">
