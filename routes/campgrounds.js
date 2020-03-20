@@ -5,6 +5,7 @@ var Comment = require("../models/comment");
 var middleware = require("../middleware");
 var Review = require("../models/review");
 var Notification = require("../models/notification");
+var multer = require("multer");
 
 
 /*INDEX ROUTE - show all campgrounds*/

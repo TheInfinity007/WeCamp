@@ -141,6 +141,7 @@ router.get("/follow/:user_id", middleware.isLoggedIn, (req, res)=>{
 	});
 });
 
+/*VIEW ALL NOTIFICATIONS*/
 router.get("/notifications", middleware.isLoggedIn, (req, res)=>{
 	User.findById(req.user._id).populate({
 		path: "notifications",
@@ -150,6 +151,8 @@ router.get("/notifications", middleware.isLoggedIn, (req, res)=>{
 	});
 });
 
+
+/*HANDLE NOTIFICATIONS*/
 router.get("/notifications/:notification_id", middleware.isLoggedIn, (req, res)=>{
 	Notification.findById(req.params.notification_id, (err, notification)=>{
 		if(err){
