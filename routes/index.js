@@ -217,4 +217,9 @@ router.post("/reset/:token", (req, res)=>{
 	});
 });
 
+/*ABOUT US PAGE ROUTE*/
+router.get("/about", (req, res)=>{
+	res.render("about");
+});
+
 module.exports = router;
