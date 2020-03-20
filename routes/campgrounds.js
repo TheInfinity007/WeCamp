@@ -6,7 +6,29 @@ var middleware = require("../middleware");
 var Review = require("../models/review");
 var Notification = require("../models/notification");
 var multer = require("multer");
+var cloudinary = require("cloudinary");
 
+/*CONFIGURE MULTER*/
+var storage = multer.diskStorage({
+	filename: function(req, file, callback){
+		callback(null, Date.now() + file.originalname);
+	}
+});
+var imageFilter = function(req, file, cb){			//cb - callback
+	//accept image files only
+	if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)){
+		return cb(new Error("Only image files are allowed!"), false);
+	}
+	cb(null, true);
+}
+var upload = multer({ storage: storage, filefilter: imageFilter });
+
+/*CONFIGURE CLOUDINARY*/
+cloudinary.config({
+		cloud_name: "infinity99",
+		api_key: process.env.CLOUDINARY_API_KEY,
+		api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 /*INDEX ROUTE - show all campgrounds*/
 router.get('/', (req, res)=>{
@@ -60,50 +82,48 @@ router.get('/', (req, res)=>{
 });
 
 /*CREATE ROUTE - add new campground to database*/
-router.post("/", middleware.isLoggedIn, (req, res)=>{
-	//get data from form and add to campgrounds array
-	// console.log(req.body);
-	var name = req.body.name;
-	var cost = req.body.cost;
-	var image = req.body.image;
-	var description = req.body.description;
-	var author = {
-		id: req.user._id,
-		username: req.user.username
-	};
-	var newCampground = {name: name, image: image, description: description, author: author, cost: cost};
-	// console.log(req.user);
-	/* Create a new campground and save to db */
-	Campground.create(newCampground, (err, campground)=>{
-		if(err){
-			console.log(err);
-			req.flash("error", err.message);
-			res.redirect("back");
-		}else{
-			User.findById(req.user._id).populate("followers").exec((err, user)=>{
-				if(err){
-					console.log(err);
-					req.flash("error", err.message);
-					return res.redirect("back");
-				}
-				var newNotification = {
-					username: req.user.username,
-					campgroundId: campground._id
-				};
-				for(const follower of user.followers){
-					Notification.create(newNotification, (err, notification)=>{
-						if(err){
-							console.log(err);
-							req.flash("error", err.message);
-							return res.redirect("back");	
-						}
-						follower.notifications.push(notification);
-						follower.save();
-					});
-				}
-				res.redirect("/campgrounds/" + campground._id);		
-			});
-		}
+router.post("/", middleware.isLoggedIn, upload.single("image"), (req, res)=>{
+	cloudinary.uploader.upload(req.file.path, (result)=>{
+		//add cloudinary url for the image to the campground object under image property
+		req.body.campground.image = result.secure_url;
+		//add author to campground
+		req.body.campground.author = {
+			id: req.user._id,
+			username: req.user.username
+		};
+
+		/* Create a new campground and save to db */		
+		Campground.create(req.body.campground, (err, campground)=>{
+			if(err){
+				console.log(err);
+				req.flash("error", err.message);
+				res.redirect("back");
+			}else{
+				User.findById(req.user._id).populate("followers").exec((err, user)=>{
+					if(err){
+						console.log(err);
+						req.flash("error", err.message);
+						return res.redirect("back");
+					}
+					var newNotification = {
+						username: req.user.username,
+						campgroundId: campground._id
+					};
+					for(const follower of user.followers){
+						Notification.create(newNotification, (err, notification)=>{
+							if(err){
+								console.log(err);
+								req.flash("error", err.message);
+								return res.redirect("back");	
+							}
+							follower.notifications.push(notification);
+							follower.save();
+						});
+					}
+					res.redirect("/campgrounds/" + campground._id);		
+				});
+			}
+		});	
 	});	
 });
 
