@@ -55,103 +55,75 @@ router.put("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 
 /*USER DELETE ROUTE*/
 router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
-	User.findById(req.params.user_id, async (err, user)=>{
+	User.findById(req.params.user_id, (err, user)=>{
 		if(err || !user){
 			req.flash("error", "No user found");
 			return res.redirect("back");
 		}
-		try
-		{
-			await Campground.find().where("author.id").equals(user._id).exec( async (err, campgrounds)=>{
+		//delete all campgrounds associated with the user
+		Campground.find().where("author.id").equals(user._id).exec((err, campgrounds)=>{
+			if(err){
+				req.flash("error", "Something went wrong");
+				return res.redirect("back");
+			}
+			 campgrounds.forEach((campground)=>{
+			 	cloudinary.v2.uploader.destroy(campground.imageId);
+				 	//deletes all comments associated with the campground
+				Comment.deleteMany({"_id": {$in: campground.comments}}, (err)=>{
+					if(err){
+						console.log(err);
+						return res.redirect("back");
+					}
+					//deletes all the reviews associated with the campground
+					Review.deleteMany({"_id": {$in: campground.reviews}}, (err)=>{
+						if(err){
+							console.log(err);
+							res.redirect("back");
+						}
+						//delete the campground
+						campground.deleteOne();
+					});
+				});
+			});
+
+			//delete all comments associated with the user
+			Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
 				if(err){
 					req.flash("error", "Something went wrong");
 					return res.redirect("back");
 				}
-				 await campgrounds.forEach(async (campground)=>{
-				 	try{
-						await cloudinary.v2.uploader.destroy(campground.imageId);
-						await Comment.deleteMany({"_id": {$in: campground.comments}});
-						await Review.deleteMany({"_id": {$in: campground.reviews}});
-					}catch(err){
-						req.flash("error", err.message);
-						return res.redirect("/campgrounds");
-					}
-					campground.deleteOne();
-				});
-			});
-			await Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
-				// if(err){
-				// 	req.flash("error", "Something went wrong");
-				// 	return res.redirect("back");
-				// }
 				comments.forEach((comment)=>{
 					comment.deleteOne();
 				});
-			});
-			await Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
-				// if(err){
-				// 	req.flash("error", "Something went wrong");
-				// 	return res.redirect("back");
-				// }
-				reviews.forEach((review)=>{
-					review.deleteOne();
-				});
-			});
-			await Notification.find({username: {$eq: req.user.username}}).exec((err, notifications)=>{
-				if(err){
-					console.log(err);
-					req.flash("error", "Something went wrong.");
-					return res.redirect("back");
-				}
-				console.log(notifications);
-				notifications.forEach((notification)=>{
-					notification.deleteOne();
-				});
-			});
-		}catch(err){
-			req.flash("error", err.message);
-			return res.redirect("back");
-		}
-		//delete all campgrounds associated with the user
-		
 
-		//delete all comments associated with the user
-		// Comment.find().where("author.id").equals(user._id).exec((err, comments)=>{
-		// 	if(err){
-		// 		req.flash("error", "Something went wrong");
-		// 		return res.redirect("back");
-		// 	}
-		// 	comments.forEach((comment)=>{
-		// 		comment.deleteOne();
-		// 	});
+				//delete all review associated with the user
+				Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
+					if(err){
+						req.flash("error", "Something went wrong");
+						return res.redirect("back");
+					}
+					reviews.forEach((review)=>{
+						review.deleteOne();
+					});
 
-			//delete all review associated with the user
-			// Review.find().where("author.id").equals(user._id).exec((err, reviews)=>{
-			// 	if(err){
-			// 		req.flash("error", "Something went wrong");
-			// 		return res.redirect("back");
-			// 	}
-			// 	reviews.forEach((review)=>{
-			// 		review.deleteOne();
-			// 	});
-
-		// 		Notification.find({username: {$eq: req.user.username}}).exec((err, notifications)=>{
-		// 			if(err){
-		// 				console.log(err);
-		// 				req.flash("error", "Something went wrong.");
-		// 				return res.redirect("back");
-		// 			}
-		// 			console.log(notifications);
-		// 			notifications.forEach((notification)=>{
-		// 				notification.deleteOne();
-		// 			});
-		// 		});					
-		// 	});					
-		// });
-
-		user.deleteOne();	
-		req.flash("success", "Success, User  has been deleted");
-		res.redirect("/campgrounds");	 
+					Notification.find({username: {$eq: req.user.username}}).exec((err, notifications)=>{
+						if(err){
+							console.log(err);
+							req.flash("error", "Something went wrong.");
+							return res.redirect("back");
+						}
+						console.log(notifications);
+						notifications.forEach((notification)=>{
+							notification.deleteOne();
+						});
+					});
+					
+					user.deleteOne();	
+					req.flash("success", "Success, User  has been deleted");
+					res.redirect("/campgrounds");
+				});					
+			});			 
+		});
 	});
 });
 
