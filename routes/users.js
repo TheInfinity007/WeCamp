@@ -6,8 +6,29 @@ var Comment = require("../models/comment");
 var Review = require("../models/review");
 var Notification = require("../models/notification");
 var middleware = require("../middleware");
+var multer = require("multer");
 var cloudinary = require("cloudinary");
 
+/*CONFIGURE MULTER*/
+var storage = multer.diskStorage({
+	filename: function(req, file, callback){
+		callback(null, Date.now() + file.originalname);
+	}
+});
+var imageFilter = function(req, file, cb){
+	if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)){
+		return cb(new Error("Only image files are allowed"), false);
+	}
+	cb(null, true);
+}
+var upload = multer({ storage: storage, filefilter: imageFilter });
+
+/*CONFIGURE CLOUDINARY*/
+cloudinary.config({
+	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+	api_key: process.env.CLOUDINARY_API_KEY,
+	secret_key: process.env.CLOUDINARY_SECRET_KEY
+});
 
 router.get("/users", (req, res)=>{
 	res.redirect("back");
