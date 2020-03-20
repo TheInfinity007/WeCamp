@@ -12,16 +12,16 @@
 				</li>
 			<% }); %>
 
-			<% if(allNotifications.length == 0){ %>
-				<li><a class="text">No notifications</a></li>
+			<% if(allNotifications.length < 1){ %>
+				<p class="text">No notifications to show</p>
 			<% } %>
-
 		</ul>
+		<div style="margin-top:3vw"><a href="/campgrounds" class="">Go Back</a></div>
 	</div>	
 </div>
 <%- include('../partials/footer') %>
 
-<script type="">
+<script type="text/javascript">
 		$(document).ready(function() {
 			$('.nav > li > a:contains("Notifications")').parent().addClass('active');
 		});

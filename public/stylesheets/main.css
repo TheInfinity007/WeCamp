@@ -143,14 +143,13 @@ div > .btn-back
 	padding:3vw;
 	background:#eaeaea;
 	border-radius:10px;
-	min-height: 90vh;
+	min-height: 85vh;
 }
 @media(max-width: 768px)
 {
 	.notifications
 	{
 		padding: 3vw;
-
 	}
 	.notifications h1
 	{
@@ -169,5 +168,4 @@ div > .btn-back
 	padding:3vw;
 	background:#eaeaea;
 	border-radius:10px;
-	/*min-height: 90vh;*/
 }

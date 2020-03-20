@@ -31,6 +31,9 @@
 		<%  campgrounds.forEach((campground)=>{ %>
 			<li><a href="/campgrounds/<%= campground.id %>"><%= campground.name %></a></li>
 		<% }) %>
+		<% if(campgrounds.length < 1){%>
+			<p class="text">No campgrounds to show</p>
+		<% }%>
 		</ul>
 		<div class="follow text-capitalize">
 			<% if(currentUser && !(user._id.equals(currentUser._id))){ %>
