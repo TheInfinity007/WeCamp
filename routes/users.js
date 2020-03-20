@@ -63,13 +63,30 @@ router.get("/users/:user_id/edit", middleware.checkUserOwnership,  (req, res)=>{
 });
 
 /*USER UPDATE ROUTE*/
-router.put("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
-	User.findByIdAndUpdate(req.params.user_id, req.body.user, (err, foundUser)=>{
+router.put("/users/:user_id", middleware.checkUserOwnership, upload.single("avatar"), (req, res)=>{
+	User.findById(req.params.user_id, async (err, foundUser)=>{
 		if(err || !foundUser){
 			req.flash("error", err.message);
 			return res.redirect("back");
 		}
-		req.flash("Your profile has been update.");
+		if(req.file){
+			try{
+				await cloudinary.v2.uploader.destroy(foundUser.avatarId);
+				var result = await cloudinary.v2.uploader.upload(req.file.path);
+				foundUser.avatarId = result.public_id;
+				foundUser.avatar = result.secure_url;
+			}catch(err){
+				req.flash("error", err.message);
+				return res.redirect('back');
+			}
+		}
+		foundUser.name = req.body.user.name;
+		foundUser.firstName = req.body.user.firstName;
+		foundUser.lastName = req.body.user.lastName;
+		foundUser.email = req.body.user.email;
+		foundUser.description = req.body.user.description;
+		foundUser.save();
+		req.flash("success", "Your profile has been updated.");
 		res.redirect("/users/"+ req.params.user_id);
 	});
 });
@@ -133,12 +150,12 @@ router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 							req.flash("error", "Something went wrong.");
 							return res.redirect("back");
 						}
-						console.log(notifications);
 						notifications.forEach((notification)=>{
 							notification.deleteOne();
 						});
 					});
-					
+
+					cloudinary.v2.uploader.destroy(user.avatarId);
 					user.deleteOne();	
 					req.flash("success", "Success, User  has been deleted");
 					res.redirect("/campgrounds");

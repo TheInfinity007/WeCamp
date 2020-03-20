@@ -5,7 +5,7 @@ var userSchema = new mongoose.Schema({
 	username: {	type: String, 	unique: true, required: true	},
 	password: String,
 	avatar: { type: String, default: "https://res.cloudinary.com/infinity99/image/upload/v1584729718/avatar/User_Avatar_ub5jq9.png" },
-	avatarId: String,
+	avatarId: { type: String, default: "bcr21ulgolcj5" },
 	firstName: String,
 	lastName:{ type: String, default: "" },
 	email: { type: String, unique: true,	required: true	},
