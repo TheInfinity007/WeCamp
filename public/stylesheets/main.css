@@ -169,3 +169,54 @@ div > .btn-back
 	background:#eaeaea;
 	border-radius:10px;
 }
+.about-us-heading
+{
+	font-size:45px;
+	text-align:center;
+}
+.hr
+{
+	margin:auto;
+	width:50%;
+	background:rgba(0,0,0,0.125);
+	height: 1px;
+}
+section.about-us
+{
+	margin-top:2vh;
+	font-size:25px;
+	padding:20px;
+	text-align: center;
+}
+.about-us em
+{
+	margin-bottom:20px;
+	font-weight:600;
+}
+.about-us > p::first-letter
+{
+	font-size:1.2em;
+	font-weight: bold;
+	margin: 0;
+	letter-spacing: 0;
+}
+.about-us-image
+{
+	margin: 25px auto;
+	display:flex;
+	align-items: center;
+	justify-content: center;
+}
+.about-us-image img
+{
+	float:left;
+	max-width:200px;
+	border-radius:50%;
+	box-shadow:0 5px 10px 5px rgba(0,0,0,0.5);
+}
+.about-us-image p
+{
+	font-size:25px;
+	padding:10px;
+}
+
