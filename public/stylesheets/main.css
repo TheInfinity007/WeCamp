@@ -193,6 +193,10 @@ section.about-us
 	margin-bottom:20px;
 	font-weight:600;
 }
+.about-us> p
+{
+	margin-top:15px;
+}
 .about-us > p::first-letter
 {
 	font-size:1.2em;
@@ -218,5 +222,30 @@ section.about-us
 {
 	font-size:25px;
 	padding:10px;
+}
+.add-new
+{
+	position:fixed;
+	right:5%;
+	bottom:5%;
+	background:#40af2c;
+	padding:5px;
+	width:45px;
+	height: 45px;
+	border-radius: 50%;
+	transition:0.5s;
+}
+.add-new .fa.fa-plus
+{
+	position:relative;
+	color:white;
+	left:8px;
+	top:6px;
+	font-size:25px;
+	transition: 0.5s;
+}
+.add-new:hover
+{
+	transform: scale(1.5)
 }
 
