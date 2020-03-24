@@ -2,6 +2,7 @@ body
 {
 	background-color: #eee;
 	height:100%;
+ 	 position: relative;
 }
 h1, h2, h3
 {
@@ -10,6 +11,10 @@ h1, h2, h3
 a:hover
 {
 	text-decoration: none;
+}
+.wrapper
+{
+	min-height: calc(100vh - 75px);
 }
 .fa.fa-ellipsis-v
 {
@@ -114,7 +119,6 @@ div > .btn-back
 	color:#fff;
 }
 
-
 #collapseComment .well,
 .collapseEdit .well
 {
@@ -124,6 +128,7 @@ div > .btn-back
 .pagination
 {
 	margin-top:2em;
+	margin-bottom: 4em;
 }
 
 .follow
@@ -155,6 +160,10 @@ div > .btn-back
 	.notifications h1
 	{
 		text-align:center;
+	}
+	.wrapper
+	{
+		min-height: calc(100vh - 140px);
 	}
 }
 @media(min-width:768px)

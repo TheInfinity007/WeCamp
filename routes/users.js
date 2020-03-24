@@ -157,6 +157,7 @@ router.delete("/users/:user_id", middleware.checkUserOwnership, (req, res)=>{
 
 					cloudinary.v2.uploader.destroy(user.avatarId);
 					user.deleteOne();	
+					req.logout();
 					req.flash("success", "Success, User  has been deleted");
 					res.redirect("/campgrounds");
 				});					

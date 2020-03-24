@@ -24,14 +24,10 @@ router.post("/register", (req, res)=>{
 		username: req.body.username,
 		firstName: req.body.firstName,
 		lastName: req.body.lastName,
-		email: req.body.email,
-		avatar : req.body.avatar,
+		email: req.body.email
 	});
 	if(req.body.adminCode == "rcadmin"){
 		newUser.isAdmin = true;
-	}
-	if(newUser.avatar === ""){
-		newUser.avatar = "https://upload.wikimedia.org/wikipedia/commons/6/67/User_Avatar.png";
 	}
 	User.register(newUser, password, (err, user)=>{
 		if(err){
