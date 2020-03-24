@@ -105,7 +105,12 @@ a:hover
 {
 	.form
 	{
-		width:50%;
+		width:80%;
+	}
+	.form-horizontal
+	{
+		width:80%;
+		margin:25px auto;
 	}
 }
 
