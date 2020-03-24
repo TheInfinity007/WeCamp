@@ -1,6 +1,7 @@
 body
 {
 	background-color: #eee;
+	height:100%;
 }
 h1, h2, h3
 {
@@ -234,6 +235,7 @@ section.about-us
 	height: 45px;
 	border-radius: 50%;
 	transition:0.5s;
+	z-index: 5;
 }
 .add-new .fa.fa-plus
 {
@@ -248,4 +250,5 @@ section.about-us
 {
 	transform: scale(1.5)
 }
+
 

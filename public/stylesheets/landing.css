@@ -1,10 +1,13 @@
 body
 {
 	background: #000;
+	margin:0;
+	padding:0;
 }
 #landing-header
 {
-	z-index:1;
+	height:92vh;
+	z-index:5;
 	position:relative;
 	text-align:center;
 	padding-top:40vh;
@@ -26,6 +29,7 @@ body
 	list-style-type:none;
 	margin:0;
 	padding:0;
+	z-index: 4;
 }
 .slideshow li
 {
