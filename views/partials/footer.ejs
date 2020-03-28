@@ -7,18 +7,50 @@
 			<span class="text-muted">&copy; Infinity 2020 </span>|  <a href="/campgrounds">Home</a> |  <a href="/campgrounds/new">New Campground</a>
 		</div>
 	</footer>
+	<button type="button" class="btn btn-info btn-lg" id="btn-feedback" data-toggle="modal" data-target="#feedback">Feedback<span class="icon-feedback"> | <span class="fa fa-commenting"></span></button>
+	<div class="modal" id="feedback" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Feedback</h4>
+				</div>
+				<div class="modal-body">
+					<h1>Rate Us</h1>
+					<form action="/feedback" method='POST'>
+						<div class="rating">
+							<input type="radio" name="rating" id="star5" value="5"><label for="star5"></label>
+							<input type="radio" name="rating" id="star4" value="4"><label for="star4"></label>
+							<input type="radio" name="rating" id="star3" value="3"><label for="star3"></label>
+							<input type="radio" name="rating" id="star2" value="2"><label for="star2"></label>
+							<input type="radio" name="rating" id="star1" value="1"><label for="star1"></label>
+						</div>
+						<div class="form-group">
+							<textarea placeholder="Help us to improve" cols="40" rows="4" name="feedback[text]"></textarea>
+						</div>
+			        	<button type="submit" class="btn btn-submit">Submit</button>
+					</form>
+					<div class="small">Your Feedback is important to us!	</div>
+					<button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+				</div>
+			</div>			
+		</div>
+	</div>
 
+
+	<!-- Fontawesome 4.7 cdn -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/footer.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-	// get current URL path and assign 'active' class
 			var pathname = window.location.pathname;
 			console.log(pathname);
 			$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
 		});
 	</script>
+
 </body>
 </html>
