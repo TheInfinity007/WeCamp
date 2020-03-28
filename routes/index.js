@@ -220,8 +220,19 @@ router.get("/about", (req, res)=>{
 });
 
 router.post("/feedback", (req, res)=>{
-	console.log(req.body);
-	res.send("Feedback received!!");
+	if(req.user){
+		req.body.feedback.username = req.user.username;
+	}
+	Feedback.create(req.body.feedback, (err, feed)=>{
+		if(err){
+			console.log(err);
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		feed.save();
+		req.flash("success", "Thanks for you feedback!!");
+		res.redirect("back");		
+	});
 });
 
 module.exports = router;
