@@ -3,6 +3,7 @@ var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 var Campground = require("../models/campground");
+var Feedback = require("../models/feedback");
 var async	= require("async");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
@@ -216,6 +217,11 @@ router.post("/reset/:token", (req, res)=>{
 /*ABOUT US PAGE ROUTE*/
 router.get("/about", (req, res)=>{
 	res.render("about");
+});
+
+router.post("/feedback", (req, res)=>{
+	console.log(req.body);
+	res.send("Feedback received!!");
 });
 
 module.exports = router;

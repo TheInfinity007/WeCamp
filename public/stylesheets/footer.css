@@ -21,9 +21,11 @@ footer
 	left:0;
 	transform: rotateZ(-90deg);
 	transform-origin: 21px 50%;
-	text-transform: uppercase;
+	text-transform: capitalize;
 	padding:8px 16px;
 	outline: none;
+	color:#fff;
+	background:#2b81e5;
 }
 #btn-feedback .fa-commenting
 {
@@ -38,7 +40,6 @@ footer
 		left:0;
 		transform: rotateZ(-90deg);
 		transform-origin: 12.6px 50%;
-		text-transform: uppercase;
 		padding:4px 16px;
 		font-size:12px;
 		opacity:0.7;
@@ -47,6 +48,11 @@ footer
 	{
 		display:none;
 	}
+}
+.modal-content
+{
+	border-radius:10px;
+	overflow:hidden;
 }
 .modal-body
 {
@@ -59,6 +65,7 @@ footer
 .modal-body h1
 {
 	color:rgb(3, 169, 245);
+	color:#2b81e5;
 }
 .modal-body .fa-star
 {
@@ -68,6 +75,7 @@ footer
 {
 	background:rgb(3, 169, 245);
 	color:#fff;
+	background: #2b81e5;
 }
 .modal-body form
 {
@@ -76,6 +84,7 @@ footer
 .modal-header
 {
 	background:rgb(3, 169, 245);
+	background: #2b81e5;
 	width:100.1%;
 	color:#fff;
 	letter-spacing: 	5px;
@@ -110,6 +119,7 @@ footer
 	display:block;
 	font-size:40px;
 	color:#101010;
+	color:#bbb5b5;
 }
 .rating label:after
 {

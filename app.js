@@ -14,6 +14,7 @@ var express  			= require('express'),
 	  Comment			= require('./models/comment'),
 	  User 					= require("./models/user"),
 	  Notification		= require("./models/notification"),
+	  Feedback			= require("./models/feedback"),
 	  seedDB				= require('./seeds.js');
 
 //requiring routes
