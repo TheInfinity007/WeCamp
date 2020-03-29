@@ -71,6 +71,9 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
+app.get("/*", (req, res)=>{
+	res.send("Invalid address");
+})
 
 app.listen(PORT, ()=>{
 	console.log("WeCamp Has Started");

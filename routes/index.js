@@ -221,7 +221,7 @@ router.get("/about", (req, res)=>{
 
 /*FEEDBACK ROUTE*/
 router.get("/feedback", (req, res)=>{
-	Feedback.find({}, (err, feedbacks)=>{
+	Feedback.find({}).sort({"createdAt": -1}).exec((err, feedbacks)=>{
 		if(err){
 			console.log(err);
 			req.flash("error", err.message);
