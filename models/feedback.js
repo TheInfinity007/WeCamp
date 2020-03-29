@@ -9,7 +9,9 @@ var feedbackSchema = new mongoose.Schema({
 		required: true
 	},
 	createdAt: {type : Date, default: Date.now},
-	username: { type: String, default: ""}
+	author: {
+		username: { type: String, default: "Anonymous"}
+	}
 });
 
 module.exports = mongoose.model("Feedback", feedbackSchema);

@@ -188,6 +188,7 @@ div > .btn-back
 {
 	font-size:45px;
 	text-align:center;
+	color:#2b81e5;
 }
 .hr
 {
@@ -265,4 +266,55 @@ section.about-us
 	transform: scale(1.5)
 }
 
-
+.feedback-heading
+{
+	font-size:45px;
+	text-align:center;
+	color:#2b81e5;
+}
+.stats
+{
+	display:flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin:40px auto 60px;
+}
+.items
+{
+	background:#eeeeee;
+	width:300px;
+	position: relative;
+	margin:0 auto;
+	text-align:center;
+	box-shadow:0 10px 40px rgba(0,0,0,0.5);
+	padding:18px;
+	overflow:hidden;
+	border-radius:20px;
+}
+.items .type
+{
+	font-size:1.1em;
+	color:#2f4258;
+}
+.items .value h2
+{
+	font-size:32px;
+	color:#2867b0;
+}
+.feedbacks
+{
+	margin-bottom:60px;
+}
+.feedback
+{
+	padding:5px;
+	border-bottom:1px solid #d7caca;
+	box-shadow:0 5px 20px rgba(0,0,0,0.2);
+}
+@media(max-width: 768px)
+{
+	.items
+	{
+		margin-bottom:1em;
+	}
+}

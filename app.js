@@ -73,6 +73,6 @@ app.use("/campgrounds/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
 
 app.listen(PORT, ()=>{
-	console.log("Yelpcamp Has Started");
+	console.log("WeCamp Has Started");
 	console.log("Server is listening at 'localhost:3000'");
 });

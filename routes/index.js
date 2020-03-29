@@ -37,7 +37,7 @@ router.post("/register", (req, res)=>{
 			return res.redirect("/register");
 		}else{
 			passport.authenticate("local")(req, res, ()=>{
-				req.flash("success", "Welcome to Yelpcamp " + user.username);
+				req.flash("success", "Welcome to WeCamp " + user.username);
 				res.redirect("/campgrounds");
 			});
 		}
@@ -183,7 +183,7 @@ router.post("/reset/:token", (req, res)=>{
 			var smtpTransport = nodemailer.createTransport({
 				service: "Gmail",
 				auth: {
-					user: "theinfinity674@gmail.com",
+					user: process.env.GMAILID,
 					pass: process.env.GMAILPW
 				}
 			});
@@ -219,9 +219,26 @@ router.get("/about", (req, res)=>{
 	res.render("about");
 });
 
+/*FEEDBACK ROUTE*/
+router.get("/feedback", (req, res)=>{
+	Feedback.find({}, (err, feedbacks)=>{
+		if(err){
+			console.log(err);
+			req.flash("error", err.message);
+			return res.redirect("back");
+		}
+		let average = 0;
+		feedbacks.forEach((feed)=>{
+			average += feed.review;
+		});
+		average = average/feedbacks.length;
+		res.render("feedback", {feedbacks: feedbacks, average: average});
+	});
+});
+
 router.post("/feedback", (req, res)=>{
 	if(req.user){
-		req.body.feedback.username = req.user.username;
+		req.body.feedback.author.username = req.user.username;
 	}
 	Feedback.create(req.body.feedback, (err, feed)=>{
 		if(err){

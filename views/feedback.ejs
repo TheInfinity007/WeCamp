@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+
+<div class="row">
+	<div class="col-sm-12">
+		<h1 class="feedback-heading">Feedback Stats</h1>
+		<div class="hr"></div>
+		<!-- Feedback stats -->
+		<div class="row stats">
+			<div class="col-sm-6">
+				<div class="items">
+					<div class="type">Total Feedback</div>
+					<div class="value"><h2><%= feedbacks.length %></h2></div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="items">
+					<div class="type">Average Review</div>
+					<div class="value"><h2><%= average %></h2></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Feedbacks -->
+
+		<div class="row feedbacks">
+		<% feedbacks.forEach((feedback)=>{ %>
+			<div class="col-sm-6 col-md-3">
+					<div class="feedback">
+						<%- '<span class="fa fa-star checked"></span>'.repeat(feedback.review)  %>
+						<%- '<span class="fa fa-star"></span>'.repeat(5-feedback.review)  %>
+						<div>
+							<p style="text-align: justify; word-wrap: break-word;"><%= feedback.text %></p>
+                        </div>
+						<div><i>Review by: <strong><%= feedback.author.username%></strong>, <small><%= moment(feedback.createdAt).fromNow() %></small></i></div>
+					</div>
+			</div>
+	<% }) %>
+		</div>
+	</div>
+</div>
+
+<%- include("partials/footer") %>
