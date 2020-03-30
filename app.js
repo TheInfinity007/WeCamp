@@ -72,7 +72,7 @@ app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds/:id/reviews", reviewRoutes);
 app.use("/", userRoutes);
 app.get("/*", (req, res)=>{
-	res.send("Invalid address");
+	res.redirect("back");
 })
 
 app.listen(PORT, ()=>{

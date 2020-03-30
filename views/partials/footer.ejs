@@ -47,10 +47,30 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var pathname = window.location.pathname;
-			console.log(pathname);
 			$('.nav > li > a[href="'+pathname+'"]').parent().addClass('active');
+			changePageTitle(pathname);
+
 		});
+
+		function changePageTitle(path) {
+			var newPageTitle = "WeCamp";
+			if(path){
+				if(path && path.length == 1){
+					newPageTitle += ' | Landing'; 
+				}else{
+					var index = path.indexOf("/");
+					path = path.slice(index+1);
+					path = path.slice(0, 1).toUpperCase() + path.slice(1);
+					newPageTitle += " | " + path;
+				}	
+			}		
+        	document.title = newPageTitle; 
+    	} 
 	</script>
 
+<script type="text/javascript">
+    
+    changePageTitle();
+</script>
 </body>
 </html>
