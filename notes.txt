@@ -1,0 +1,2 @@
+increse the font-size of text in landing page.
+Decrease the size of the background-images as take a longer time to load.
