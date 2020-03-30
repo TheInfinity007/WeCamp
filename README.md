@@ -2,7 +2,7 @@
 
 
 <h1>A web app to share the posts or blogs.</h1>
-<p style="font-weight: bold;font-size: 25px; margin-bottom:0">Technology Used</p>
+<h2>Technology Used</h2>
 <ul style="margin-top:5px;">
 	<li>HTML</li>
 	<li>CSS</li>
@@ -16,7 +16,7 @@
 	<li>Multer</li>
 	<li>Cloudinary</li>
 </ul>
-<p style="font-weight: bold;font-size: 25px; margin-bottom:0">Features</p>
+<h2>Features</h2>
 <ul style="margin-top:5px;">
 	<li>Fuzzy Search</li>
 	<li>User Profile</li>
@@ -28,7 +28,7 @@
 	<li>Authorisation</li>
 	<li>Notifications</li>
 </ul>
-<p style="font-weight: bold;font-size: 25px; margin-bottom:0">Views</p>
+<h2>Views</h2>
 <ul style="margin-top:5px;">
 	<li>Home Page - shows all the posts</li>
 	<li>Show Page - shows a details about specific blog or post</li>

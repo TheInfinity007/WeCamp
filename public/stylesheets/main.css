@@ -12,6 +12,12 @@ a:hover
 {
 	text-decoration: none;
 }
+img.nav-icon
+{
+	width:18px;
+	float:left;
+	margin-right:4px;
+}
 .wrapper
 {
 	min-height: calc(100vh - 75px);
