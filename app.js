@@ -1,28 +1,27 @@
 require("dotenv").config();
-var PORT = process.env.PORT || 3000;
 
-var express  			= require('express'),
-	  app 					= express(),
-	  bodyParser 		= require("body-parser"),
-	  mongoose 			= require("mongoose"),
-	  flash					= require("connect-flash"),
-	  passport				= require("passport"),
-	  LocalStrategy	= require("passport-local"),
-	  methodOverride = require("method-override"),
-	  moment				= require("moment");
-	  Campground 		= require('./models/campground'),
-	  Comment			= require('./models/comment'),
-	  User 					= require("./models/user"),
-	  Notification		= require("./models/notification"),
-	  Feedback			= require("./models/feedback"),
-	  seedDB				= require('./seeds.js');
+var express = require('express');
+const app = express();
+const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const methodOverride = require("method-override");
+const moment	= require("moment");
+const Campground = require('./models/campground');
+const Comment = require('./models/comment');
+const User = require("./models/user");
+const Notification = require("./models/notification");
+const Feedback = require("./models/feedback");
+const seedDB = require('./seeds.js');
 
 //requiring routes
-var 	commentRoutes	= require("./routes/comments"),
-		reviewRoutes			= require("./routes/reviews"),
-		campgroundRoutes	= require("./routes/campgrounds"),
-		indexRoutes				= require("./routes/index"),
-		userRoutes				= require("./routes/users");
+var commentRoutes = require("./routes/comments");
+var reviewRoutes = require("./routes/reviews");
+var campgroundRoutes = require("./routes/campgrounds");
+var indexRoutes = require("./routes/index");
+var userRoutes	 = require("./routes/users");
 
 var url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp_v12";
 
@@ -36,7 +35,6 @@ app.use(methodOverride("_method"));
 app.use(flash());
 //seedDB();		//seed the database
 app.locals.moment = moment;
-
 
 /*PASSPORT CONFIGURATION*/
 app.use(require('express-session')({
@@ -75,7 +73,7 @@ app.get("/*", (req, res)=>{
 	res.redirect("back");
 })
 
-app.listen(PORT, ()=>{
+app.listen(process.env.PORT || 3000, ()=>{
 	console.log("WeCamp Has Started");
 	console.log("Server is listening at 'localhost:3000'");
 });

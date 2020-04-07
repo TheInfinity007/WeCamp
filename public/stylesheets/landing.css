@@ -12,7 +12,6 @@ body
 	text-align:center;
 	padding-top:40vh;
 }
-
 #landing-header h1
 {
 	color:#fff;
@@ -70,7 +69,6 @@ body
 	background-image: url("http://i.imgur.com/TVGe0Ef.jpg");
 	animation-delay:40s;
 }
-
 @keyframes imageAnimation
 {
 	0%
